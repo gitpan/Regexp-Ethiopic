@@ -143,11 +143,11 @@ sub import
 
 	my @args = ( shift ); # package
 	foreach (@_) {
-		if ( /overload/ ) {
+		if ( /overload/o ) {
 			use overload;
 			overload::constant 'qr' => \&getRe;
 		}
-		elsif ( /EthiopicClasses|(sub|[gs]et)Form|:forms/ ) {
+		elsif ( /EthiopicClasses|(sub|[gs]et)Form|:forms|:utils/ ) {
 			Regexp::Ethiopic->export_to_level (1, "Regexp::Ethiopic", $_);
 		}
 		else {
@@ -166,8 +166,8 @@ sub getRe
 $_ = ($#_) ? $_[1] : $_[0];
 
 
-	s/\[=(\p{InEthiopic})=\]/($AmharicEquivalence{$1}) ? "[$AmharicEquivalence{$1}]" : ""/eg;
-	s/\[=#(\p{InEthiopic})#=\]/($AmharicClassEquivalence{$1}) ? "[$AmharicClassEquivalence{$1}]" : ""/eg;
+	s/\[=(\p{Ethiopic})=\]/($AmharicEquivalence{$1}) ? "[$AmharicEquivalence{$1}]" : ""/eog;
+	s/\[=#(\p{Ethiopic})#=\]/($AmharicClassEquivalence{$1}) ? "[$AmharicClassEquivalence{$1}]" : ""/eog;
 
 	Regexp::Ethiopic::getRe ( $_ );
 }
@@ -247,10 +247,10 @@ not yet been tested.
 
 =head1 BUGS
 
-None known yet.
+None presently known.
 
 =head1 AUTHOR
 
-Daniel Yacob,  L<Yacob@EthiopiaOnline.Net|mailto:Yacob@EthiopiaOnline.Net>
+Daniel Yacob,  L<dyacob@cpan.org|mailto:dyacob@cpan.org>
 
 =cut

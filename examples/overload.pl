@@ -1,3 +1,5 @@
+#!/usr/bin/perl -w
+
 use Regexp::Ethiopic::Amharic 'overload';
 
 use strict;
@@ -82,6 +84,6 @@ A demonstrator script to illustrate regular expressions for Amharic.
 
 =head1 AUTHOR
 
-Daniel Yacob,  L<Yacob@EthiopiaOnline.Net|mailto:Yacob@EthiopiaOnline.Net>
+Daniel Yacob,  L<dyacob@cpan.org|mailto:dyacob@cpan.org>
 
 =cut

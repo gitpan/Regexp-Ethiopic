@@ -1,3 +1,5 @@
+#!/usr/bin/perl -w
+
 require Regexp::Ethiopic::Amharic;
 
 use strict;
@@ -18,10 +20,10 @@ my $test = "ዓለምፀሐይ";
 print "The test string \"$test\" should be matched by the RE...\n";
 
 if ( $test =~ /$re/ ) {
-	print "It matches! The test is a success.\n";
+	print "  It matches! The test is a success.\n";
 }
 else {
-	print "Does NOT match! The test has failed :(\n";
+	print "  Does NOT match! The test has failed :(\n";
 }
 
 
@@ -42,6 +44,6 @@ A demonstrator script to illustrate regular expressions for Amharic.
 
 =head1 AUTHOR
 
-Daniel Yacob,  L<Yacob@EthiopiaOnline.Net|mailto:Yacob@EthiopiaOnline.Net>
+Daniel Yacob,  L<dyacob@cpan.org|mailto:dyacob@cpan.org>
 
 =cut

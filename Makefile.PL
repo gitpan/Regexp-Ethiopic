@@ -5,7 +5,7 @@ WriteMakefile(
 	NAME		=> 'Regexp::Ethiopic',
 	DISTNAME	=> 'Regexp-Ethiopic',
 	VERSION_FROM	=> 'lib/Regexp/Ethiopic.pm', # finds $VERSION
-	AUTHOR		=> "Daniel Yacob <Yaocb\@EthiopiaOnline.Net>",
+	AUTHOR		=> "Daniel Yacob <dyacob\@cpan.org>",
 	ABSTRACT	=> "Regular Expressions Support for Ethiopic Script and the Languages that use it.",
 	dist			=>	{
 		COMPRESS        =>	"gzip -9f",

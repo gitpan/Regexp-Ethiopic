@@ -9,14 +9,17 @@ use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
                 	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 
-	$VERSION = "0.10";
+	$VERSION = "0.11";
 	
-	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm &subForm
+	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm &subForm &formatForms
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
-                	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
+                	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ
+	);
 	%EXPORT_TAGS = ( forms => [qw(
 	                 $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
-	                 $ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ)]);
+	                 $ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ)],
+			 utils => [qw(&getForm &setForm &subForm &formatForms)]
+	);
 
 
 %EthiopicClasses =(
@@ -134,12 +137,15 @@ sub import
 
 	my @args = ( shift ); # package
 	foreach (@_) {
-		if ( /overload/ ) {
+		if ( /overload/o ) {
 			use overload;
 			overload::constant 'qr' => \&getRe;
 		}
-		elsif ( /:forms/ ) {
+		elsif ( /:forms/o ) {
 			Regexp::Ethiopic->export_to_level (1, $args[0], ':forms');  # this works too...
+		}
+		elsif ( /:utils/o ) {
+			Regexp::Ethiopic->export_to_level (1, $args[0], ':utils');  # this works too...
 		}
 		else {
 			push (@args, $_);
@@ -158,13 +164,13 @@ my ($ሆሄ) = @_;
 
 	my $form = ord($ሆሄ)%8 + 1;
 
-	if ( $form == 8 || $ሆሄ =~ /[ቋቛኋኳዃጓ]/ ) {
+	if ( $form == 8 || $ሆሄ =~ /[ቋቛኋኳዃጓ]/o ) {
 		$form = 11;
 	}
-	elsif ( $ሆሄ =~ /[ቍቝኍኵዅጕ]/ ) {
+	elsif ( $ሆሄ =~ /[ቍቝኍኵዅጕ]/o ) {
 		$form = 9;
 	}
-	elsif ( $ሆሄ =~ /[ቈቘኈኰዀጐቊቚኊኲዂጒቌቜኌኴዄጔ]/ ) {
+	elsif ( $ሆሄ =~ /[ቈቘኈኰዀጐቊቚኊኲዂጒቌቜኌኴዄጔ]/o ) {
 		$form += 7;
 	}
 
@@ -176,18 +182,18 @@ sub setForm
 {
 my ($ሆሄ, $form) = @_;
 
-	if ( $ሆሄ =~ /[ኈ-ኍቈ-ቍቘ-ቝኰ-ኵዀ-ዅጐ-ጕ]/ ) {
-		$ሆሄ =~ s/[ኈ-ኍ]/ኅ/;
-		$ሆሄ =~ s/[ቈ-ቍ]/ቀ/;
-		$ሆሄ =~ s/[ቘ-ቝ]/ቐ/;
-		$ሆሄ =~ s/[ኰ-ኵ]/ከ/;
-		$ሆሄ =~ s/[ዀ-ዅ]/ኸ/;
-		$ሆሄ =~ s/[ጐ-ጕ]/ገ/;
+	if ( $ሆሄ =~ /[ኈ-ኍቈ-ቍቘ-ቝኰ-ኵዀ-ዅጐ-ጕ]/o ) {
+		$ሆሄ =~ s/[ኈ-ኍ]/ኅ/o;
+		$ሆሄ =~ s/[ቈ-ቍ]/ቀ/o;
+		$ሆሄ =~ s/[ቘ-ቝ]/ቐ/o;
+		$ሆሄ =~ s/[ኰ-ኵ]/ከ/o;
+		$ሆሄ =~ s/[ዀ-ዅ]/ኸ/o;
+		$ሆሄ =~ s/[ጐ-ጕ]/ገ/o;
 	}
-	$form  = 4 if ( $ሆሄ =~ /[ቋቛኋኳዃጓ]/ );
+	$form  = 4 if ( $ሆሄ =~ /[ቋቛኋኳዃጓ]/o );
 	$form -= 7 if ( $form == 8 || $form == 10 || $form == 12 );
-	$form  = 8 if ( $form == 11       );
-	$form  = 6 if ( $form == 9        );
+	$form  = 8 if ( $form == 11        );
+	$form  = 6 if ( $form == 9         );
 
 	chr ( ord($ሆሄ) - ord($ሆሄ)%8 + $form-1 );
 }
@@ -202,6 +208,26 @@ my ($set, $get) = @_;
 }
 
 
+sub formatForms
+{
+my ($format, $string) = @_;
+
+	my @chars = split ( //, $string );
+
+	if ( @chars != ($format =~ s/%/%/g) ) {
+		$format =~ s/\p{Ethiopic}//g;
+		warn ( "\"$string\" is of different length from $format." );
+		return;
+	}
+
+	foreach (@chars) {
+		$format =~ s/%(\d+)/setForm($_, $1)/e;
+	}
+
+	$format;
+}
+
+
 sub handleChars
 {
 my ($chars,$form) = @_;
@@ -210,10 +236,10 @@ my ($chars,$form) = @_;
 
 my $re;
 
-	$chars =~ s/(\w)(?=\w)/$1,/g;
+	$chars =~ s/(\w)(?=\w)/$1,/og;
 	my @Chars = split ( /,/, $chars );
 	foreach (@Chars) {
-		if ( /(\w)-(\w)/ ) {
+		if ( /(\w)-(\w)/o ) {
 			my ($a,$b) = ($1,$2);
 			foreach my $char (sort keys %EthiopicClasses) {
 				next if ( length($char) > 1 );
@@ -259,7 +285,7 @@ $not ||= $_[3];
 		# up character ranges with -
 		#
 		foreach (@Forms) {
-			if ( /(\d)-(\d)/ ) {
+			if ( /(\d)-(\d)/o ) {
 				my ($a,$b) = ($1,$2);
 				foreach my $form ($a..$b) {
 					$re .= handleChars ( $chars, $form );
@@ -280,26 +306,24 @@ sub getRe
 {
 $_ = ($#_) ? $_[1] : $_[0];
 
-# print "Yes UTF8!\n" if Encode::is_utf8($_);
 
-	s/\[:(\p{InEthiopic}+|\w+):\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : "[:$1:]"/eg;
-	s/\[#(\p{InEthiopic}|\d)#\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : ""/eg;
-	# s/\[[#:](\p{InEthiopic}+|\d+)[#:]\]/[$EthiopicClasses{$1}]/g;
-	s/\[#(\^)?([\d,-]+)#\]/setRange("all",$2,$1)/eg;
-	s/\[#(\^)?([\p{InEthiopic},-]+)#\]/setRange($2,"all",$1)/eg;
+	s/\[:(\p{Ethiopic}+|\w+):\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : "[:$1:]"/eog;
+	s/\[#(\p{Ethiopic}|\d)#\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : ""/eog;
+	s/\[#(\^)?([\d,-]+)#\]/setRange("all",$2,$1)/eog;
+	s/\[#(\^)?([\p{Ethiopic},-]+)#\]/setRange($2,"all",$1)/eog;
 
 	# print "  IN: $_\n";
 
 	#
 	# for some stupid reason the below doesn't work, so \w
-	# is used in place of \p{InEthiopic}, dangerous...
+	# is used in place of \p{Ethiopic}, dangerous...
 	#
 	# test 9 in examples/overload.pl will fail
 	#
-	s/(\p{InEthiopic})\{%([\d,-]+)\}/setRange($1,$2)/eg;
+	# s/(\p{Ethiopic})\{%([\d,-]+)\}/setRange($1,$2)/eog;
+	s/(\w)\{%([\d,-]+)\}/setRange($1,$2)/eog;
 
-	# s/(\w)\{%([\d,-]+)\}/setRange($1,$2)/eg;
-	s/\[(\^)?(\p{InEthiopic}+.*?)\]\{(\^)?%([\d,-]+)\}/setRange($2,$4,$1,$3)/eg;
+	s/\[(\^)?(\p{Ethiopic}+.*?)\]\{(\^)?%([\d,-]+)\}/setRange($2,$4,$1,$3)/eog;
 
 	# print "  OUT: $_\n";
 
@@ -368,14 +392,48 @@ properties of the script and are language independent.
 
 The Regexp::Ethiopic package is NOT derived from the Regexp class
 and may not be instantiated into an object.  Regexp::Ethiopic can
-optionally export the utility functions C<getForm>, C<setForm> and
-C<subForm>
+optionally export the utility functions C<getForm>, C<setForm>, 
+C<subForm> and C<formatForms> (or all with the C<:utils> pragma)
 to query or set the form of an Ethiopic character.  Tags of variables
 in the form names set to form values may be exported under the C<:forms>
 pragma.
 
 See the files in the doc/ and examples/ directories that are included
 with this package.
+
+=head2  Substituion Utilities
+
+=head3  getForm
+
+A utility function to query the "form" of an Ethiopic syllable.  It
+will return an integer between 1 and 12 corresponding to the [#\d+#]
+classes.
+
+  print getForm ( "አ" ), "\n";  # prints 1
+
+=head3  setForm
+
+A utility function to set the form number of a syllable.  The form
+number must be an integer between 1 and 12 corresponding to the [#\d+#]
+classes.
+
+  s/(.)/setForm($1, 1)/eg;
+
+=head3  subForm
+
+A utility function to set the form number of a syllable based on the
+form of another syllable.
+
+  s/(\w+)([#ፀ#]/$1.subForm('ጸ', $2)/eg;
+
+
+=head3  formatForms
+
+A utility function somewhat analogous to C<sprintf> for a sequence of
+syllables:
+
+  print formatForms ( "%1%2%3%4", "አበገደ" ), "\n";  # prints አቡጊዳ
+
 
 =head1 LIMITATIONS
 
@@ -423,12 +481,14 @@ None presently known.
 
 =head1 AUTHOR
 
-Daniel Yacob,  L<Yacob@EthiopiaOnline.Net|mailto:Yacob@EthiopiaOnline.Net>
+Daniel Yacob,  L<dyacob@cpan.org|mailto:dyacob@cpan.org>
 
 =head1 SEE ALSO
 
 Included with this package:
 
-  doc/index.html    examples/overload.pl    examples/asfunction.pl
+  doc/index.html       examples/overload.pl
+  examples/utils.pl    examples/asfunction.pl
+
 
 =cut

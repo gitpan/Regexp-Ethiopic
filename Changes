@@ -1,3 +1,13 @@
+0.11 Mon Jun  2 10:17:58 EDT 2003
+	- added :utils export option for all functions.
+	- added documentation for export functions.
+	- added examples/utils.pl.
+	- added new function "formatForms" (like sprintf for syllables).
+	- added the "o" optimizer everywhere applicable,
+	  lets hope this doesn't break anything.
+	- Changed \p{InEthiopic} to \p{Ethiopic} which (I think) will
+	  match only Ethiopic letter chars.
+
 0.10 Mon May19 12:33:39 EDT 2003
 	- fixed "subForm" export problem in Regexp::Ethiopic::Amharic,
 	  an oversite from the 0.09 release.
