@@ -9,7 +9,7 @@ use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
                 	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 
-	$VERSION = 0.05;
+	$VERSION = 0.06;
 	
 	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
@@ -142,7 +142,6 @@ sub import
 			Regexp::Ethiopic->export_to_level (1, $args[0], ':forms');  # this works too...
 		}
 		else {
-			print "Pushing $_\n";
 			push (@args, $_);
 		}
 	}
@@ -159,13 +158,13 @@ my ($ሆሄ) = @_;
 
 	my $form = ord($ሆሄ)%8 + 1;
 
-	if ( $ሆሄ =~ /[#11#]/ ) {
+	if ( $form == 8 || $ሆሄ =~ /[ቋቛኋኳዃጓ]/ ) {
 		$form = 11;
 	}
-	elsif ( $ሆሄ =~ /[#9#]/ ) {
+	elsif ( $ሆሄ =~ /[ቍቝኍኵዅጕ]/ ) {
 		$form = 9;
 	}
-	elsif ( $ሆሄ =~ /[#8,10,12#]/ ) {
+	elsif ( $ሆሄ =~ /[ቈቘኈኰዀጐቊቚኊኲዂጒቌቜኌኴዄጔ]/ ) {
 		$form += 7;
 	}
 
@@ -177,6 +176,14 @@ sub setForm
 {
 my ($ሆሄ, $form) = @_;
 
+	if ( $ሆሄ =~ /[ኈ-ኍቈ-ቍቘ-ቝኰ-ኵዀ-ዅጐ-ጕ]/ ) {
+		$ሆሄ =~ s/[ኈ-ኍ]/ኅ/;
+		$ሆሄ =~ s/[ቈ-ቍ]/ቀ/;
+		$ሆሄ =~ s/[ቘ-ቝ]/ቐ/;
+		$ሆሄ =~ s/[ኰ-ኵ]/ከ/;
+		$ሆሄ =~ s/[ዀ-ዅ]/ኸ/;
+		$ሆሄ =~ s/[ጐ-ጕ]/ገ/;
+	}
 	$form  = 4 if ( $ሆሄ =~ /[ቋቛኋኳዃጓ]/ );
 	$form -= 7 if ( $form == 8 || $form == 10 || $form == 12 );
 	$form  = 8 if ( $form == 11       );
