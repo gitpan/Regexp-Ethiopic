@@ -601,11 +601,11 @@
    <th>[#1#]</th>
   </tr>
   <tr>
-   <th>[:ኃምስ:]<br>[:hamis:]</th>
+   <th>[:ካዕብ:]<br>[:kaib:]</th>
    <th>[#2#]</th>
   </tr>
   <tr>
-   <th>[:ካዕብ:]<br>[:kaib:]</th>
+   <th>[:ሣልስ:]<br>[:salis:]</th>
    <th>[#3#]</th>
   </tr>
   <tr>
@@ -613,7 +613,7 @@
    <th>[#4#]</th>
   </tr>
   <tr>
-   <th>[:ሳብዕ:]<br>[:sabi:]</th>
+   <th>[:ኃምስ:]<br>[:hamis:]</th>
    <th>[#5#]</th>
   </tr>
   <tr>
@@ -621,27 +621,27 @@
    <th>[#6#]</th>
   </tr>
   <tr>
-   <th>[:ሣልስ:]<br>[:salis:]</th>
+   <th>[:ሳብዕ:]<br>[:sabi:]</th>
    <th>[#7#]</th>
   </tr>
   <tr>
-   <th>[:ዘመደ:ግዕዝ:]<br>[:zemede:geez:]</th>
+   <th>[:ዘመደ፡ግዕዝ:]<br>[:zemede:geez:]</th>
    <th>[#8#]</th>
   </tr>
   <tr>
-   <th>[:ዘመደ:ካዕብ:]<br>[:zemede:kaib:]</th>
+   <th>[:ዘመደ፡ካዕብ:]<br>[:zemede:kaib:]</th>
    <th>[#9#]</th>
   </tr>
   <tr>
-   <th>[:ዘመደ:ሣልስ:]<br>[:zemede:salis:]</th>
+   <th>[:ዘመደ፡ሣልስ:]<br>[:zemede:salis:]</th>
    <th>[#10#]</th>
   </tr>
   <tr>
-   <th>[:ዘመደ:ራብዕ:]<br>[:zemede:rabi:]</th>
+   <th>[:ዘመደ፡ራብዕ:]<br>[:zemede:rabi:]</th>
    <th>[#11#]</th>
   </tr>
   <tr>
-   <th>[:ዘመደ:ኃምስ:]<br>[:zemede:hamis:]</th>
+   <th>[:ዘመደ፡ኃምስ:]<br>[:zemede:hamis:]</th>
    <th>[#12#]</th>
   </tr>
 </table>
@@ -703,7 +703,7 @@
    <td>[ሆሖኆኈኾዀ]</td>
   </tr>
   <tr>
-   <th>[=ኋ=]<br>[=ሗ=]<br>[=ዃ=]</td>
+   <th>[=ሗ=]<br>[=ኋ=]<br>[=ዃ=]</td>
    <td>[ሗኋዃ]</td>
   </tr>
   <tr>
@@ -836,6 +836,51 @@
 
 </tr>
 </table>
+
+<p>&nbsp;</p>
+<hr size="2">
+
+<h3>Notes on Functional Use</h3>
+
+<p align="justify">The overloading of Perl's regular expressions mechanism
+is the preferred usage for the Regexp::Ethiopic package.  However, the
+overloading mechanism only applies to the constant part of the RE.  The
+following would not be handled by the Regexp::Ethipic package as expected:</p>
+
+<pre>
+use Regexp::Ethiopic 'overload';
+
+my $x = "ከ";
+    :
+    :
+	if ( /[#$x#]/ ) {
+	      :
+	      :
+	}
+</pre>
+
+<p align="justify">The package never gets to see the variable <code>$x</code> to then
+perform the RE expansion.  The work around is to use the package as per:</p>
+
+<pre>
+use Regexp::Ethiopic 'overload';
+
+my $x = "ከ";
+    :
+    :
+	my $re = Regexp::Ethiopic::getRe ( "[#$x#]" );
+
+	if ( /$re/ ) {
+	      :
+	      :
+	}
+</pre>
+
+
+<p align="justify">This works as expected at the cost of one extra step.
+The overloading and functional modes of the Regexp::Ethiopic package may
+be used together without conflict.</p>
+
 
 <p>&nbsp;</p>
 <hr size="2">

@@ -1,3 +1,11 @@
+0.05 Fri Apr 11 17:07:07 EDT 2003
+	- added exportable getForm and setForm which I keep using in
+	  other packages.
+	- Exportable ":forms" added which exports a list of classic variable
+	  names for the Ethiopic letter forms and their numeric value.
+	- fixed examples at end of examples/overload.pl
+	- documentation fixes.
+ 
 0.04 Tue Mar 18 21:06:57 EST 2003
 	- added sat-sewt family equivalence that was overlooked.
 	- fixed comma between letters problem with a zero width insertion. 

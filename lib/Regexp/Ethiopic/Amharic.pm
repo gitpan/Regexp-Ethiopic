@@ -147,7 +147,7 @@ sub import
 			use overload;
 			overload::constant 'qr' => \&getRe;
 		}
-		elsif ( /EthiopicClasses/ ) {
+		elsif ( /EthiopicClasses|[gs]etForm|:forms/ ) {
 			Regexp::Ethiopic->export_to_level (1, "Regexp::Ethiopic", $_);
 		}
 		else {
@@ -166,8 +166,8 @@ sub getRe
 $_ = ($#_) ? $_[1] : $_[0];
 
 
-	s/\[=(\p{InEthiopic})=\]/[$AmharicEquivalence{$1}]/g;
-	s/\[=#(\p{InEthiopic})#=\]/[$AmharicClassEquivalence{$1}]/g;
+	s/\[=(\p{InEthiopic})=\]/($AmharicEquivalence{$1}) ? "[$AmharicEquivalence{$1}]" : ""/eg;
+	s/\[=#(\p{InEthiopic})#=\]/($AmharicClassEquivalence{$1}) ? "[$AmharicClassEquivalence{$1}]" : ""/eg;
 
 	Regexp::Ethiopic::getRe ( $_ );
 }
@@ -186,7 +186,7 @@ __END__
 
 =head1 NAME
 
-Regexp::Ethiopic::Amharic - Regular Expressions Support for Amharic Language
+Regexp::Ethiopic::Amharic - Regular Expressions Support for Amharic Language.
 
 =head1 SYNOPSIS
 

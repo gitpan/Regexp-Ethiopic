@@ -5,11 +5,18 @@ use utf8;
 BEGIN
 {
 use strict;
-use vars qw($VERSION @EXPORT_OK %EthiopicClasses);
+use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
+	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
+                	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 
-	$VERSION = 0.04;
+	$VERSION = 0.05;
 	
-	@EXPORT_OK = qw (%EthiopicClasses);
+	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm
+	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
+                	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
+	%EXPORT_TAGS = ( forms => [qw(
+	                 $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
+	                 $ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ)]);
 
 
 %EthiopicClasses =(
@@ -93,29 +100,32 @@ $EthiopicClasses{'ሳብዕ'}
 	= $EthiopicClasses{sabi}
 	= $EthiopicClasses{7} 
 	;
-$EthiopicClasses{'ዘመደ:ግዕዝ'}
+$EthiopicClasses{'ዘመደ፡ግዕዝ'}
 	= $EthiopicClasses{'zemede:geez'}
 	= $EthiopicClasses{8}
 	;
-$EthiopicClasses{'ዘመደ:ካዕብ'}
+$EthiopicClasses{'ዘመደ፡ካዕብ'}
 	= $EthiopicClasses{'zemede:kaib'}
 	= $EthiopicClasses{9}
 	;
-$EthiopicClasses{'ዘመደ:ሣልስ'}
+$EthiopicClasses{'ዘመደ፡ሣልስ'}
 	= $EthiopicClasses{'zemede:salis'}
 	= $EthiopicClasses{10}
 	;
-$EthiopicClasses{'ዘመደ:ራብዕ'}
+$EthiopicClasses{'ዘመደ፡ራብዕ'}
 	= $EthiopicClasses{'zemede:rabi'}
 	= $EthiopicClasses{11}
 	;
-$EthiopicClasses{'ዘመደ:ኃምስ'}
+$EthiopicClasses{'ዘመደ፡ኃምስ'}
 	= $EthiopicClasses{'zemede:hamis'}
 	= $EthiopicClasses{12}
 	;
 $EthiopicClasses{'ahaz'}
 	= $EthiopicClasses{'አኃዝ'}
 	;
+
+	($ግዕዝ, $ካዕብ, $ሣልስ, $ራብዕ, $ኃምስ, $ሳድስ, $ሳብዕ,
+	$ዘመደ_ግዕዝ, $ዘመደ_ካዕብ, $ዘመደ_ሣልስ, $ዘመደ_ራብዕ, $ዘመደ_ኃምስ) = (1 .. 12);
 
 }
 
@@ -128,14 +138,51 @@ sub import
 			use overload;
 			overload::constant 'qr' => \&getRe;
 		}
+		elsif ( /:forms/ ) {
+			Regexp::Ethiopic->export_to_level (1, $args[0], ':forms');  # this works too...
+		}
 		else {
+			print "Pushing $_\n";
 			push (@args, $_);
 		}
 	}
 	if ($#args) {
-		Regexp::Ethiopic::Amharic->export_to_level (1, @args);  # this works too...
+		Regexp::Ethiopic->export_to_level (1, @args);  # this works too...
 	}
 
+}
+
+
+sub getForm
+{
+my ($ሆሄ) = @_;
+
+	my $form = ord($ሆሄ)%8 + 1;
+
+	if ( $ሆሄ =~ /[#11#]/ ) {
+		$form = 11;
+	}
+	elsif ( $ሆሄ =~ /[#9#]/ ) {
+		$form = 9;
+	}
+	elsif ( $ሆሄ =~ /[#8,10,12#]/ ) {
+		$form += 7;
+	}
+
+	$form;
+}
+
+
+sub setForm
+{
+my ($ሆሄ, $form) = @_;
+
+	$form  = 4 if ( $ሆሄ =~ /[ቋቛኋኳዃጓ]/ );
+	$form -= 7 if ( $form == 8 || $form == 10 || $form == 12 );
+	$form  = 8 if ( $form == 11       );
+	$form  = 6 if ( $form == 9        );
+
+	chr ( ord($ሆሄ) - ord($ሆሄ)%8 + $form-1 );
 }
 
 
@@ -220,7 +267,7 @@ $_ = ($#_) ? $_[1] : $_[0];
 
 
 	s/\[:(\p{InEthiopic}+|\w+):\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : "[:$1:]"/eg;
-	s/\[#(\p{InEthiopic}|\d)#\]/[$EthiopicClasses{$1}]/g;
+	s/\[#(\p{InEthiopic}|\d)#\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : ""/eg;
 	# s/\[[#:](\p{InEthiopic}+|\d+)[#:]\]/[$EthiopicClasses{$1}]/g;
 	s/\[#(\^)?([\d,-]+)#\]/setRange("all",$2,$1)/eg;
 	s/\[#(\^)?([\p{InEthiopic},-]+)#\]/setRange($2,"all",$1)/eg;
@@ -254,7 +301,7 @@ __END__
 
 =head1 NAME
 
-Regexp::Ethiopic - Regular Expressions Support for Ethiopic Script
+Regexp::Ethiopic - Regular Expressions Support for Ethiopic Script.
 
 =head1 SYNOPSIS
 
@@ -262,14 +309,14 @@ Regexp::Ethiopic - Regular Expressions Support for Ethiopic Script
  #  Overloading Perl REs:
  #
  use utf8;
- use Regexp::Ethiopic 'overload';
+ use Regexp::Ethiopic qw(:forms overload setForm);
 
  :
 
- s/([#2#])/fixForm($1,6)/eg;
- s/([መረበወ]%2)/fixForm($1,6)/eg;
- s/([መረበወ]%{1,3})/fixForm($1,6)/eg;
- s/([መረበወ]%{1-3,7})/fixForm($1,6)/eg;
+ s/([#2#])/setForm($1,$ሳድስ)/eg;
+ s/([መረበወ]%2)/setForm($1,$ሳድስ)/eg;
+ s/([መረበወ]%{1,3})/setForm($1,$ሳድስ)/eg;
+ s/([መረበወ]%{1-3,7})/setForm($1,$ሳድስ)/eg;
 
  if ( /[#ኘ#]/ ) {
    #
@@ -288,9 +335,9 @@ Regexp::Ethiopic - Regular Expressions Support for Ethiopic Script
  require Regexp::Ethiopic;
 
  my $string = "[መረበወ]%{1-3,7}";
- my $re = Regexp::Ethiopic::getRe ( $re );
+ my $re = Regexp::Ethiopic::getRe ( $string );
 
- s/abc($re)xyz/"abc".fixForm($1,6)."xyz"/eg;
+ s/abc($re)xyz/"abc".Regexp::Ethipic::setForm($1,6)."xyz"/eg;
 
 =head1 DESCRIPTION
 
@@ -300,8 +347,49 @@ classes provided by the Regexp::Ethiopic package correspond to inate
 properties of the script and are language independent.
 
 The Regexp::Ethiopic package is NOT derived from the Regexp class
-and may not be instantiated into an object.  See the files in the
-doc/ and examples/ directories that are included with this package.
+and may not be instantiated into an object.  Regexp::Ethiopic can
+optionally export the utility functions C<getForm> and C<setForm>
+to query or set the form of an Ethiopic character.  Tags of variables
+in the form names set to form values may be exported under the C<:forms>
+pragma.
+
+See the files in the doc/ and examples/ directories that are included
+with this package.
+
+=head1 LIMITATIONS
+
+The overloading mechanism only applies to the constant part of the RE.  The
+following would not be handled by the Regexp::Ethipic package as expected:
+
+  use Regexp::Ethiopic 'overload';
+
+  my $x = "ከ";
+        :
+        :
+  if ( /[#$x#]/ ) {
+        :
+        :
+  }
+
+The package never gets to see the variable C<$x> to then
+perform the RE expansion.  The work around is to use the package as per:
+
+  use Regexp::Ethiopic 'overload';
+
+  my $x = "ከ";
+        :
+        :
+  my $re = Regexp::Ethiopic::getRe ( "[#$x#]" );
+
+  if ( /$re/ ) {
+        :
+        :
+  }
+
+
+This works as expected at the cost of one extra step.  The overloading and
+functional modes of the Regexp::Ethiopic package may be used together
+without conflict.
 
 =head1 REQUIRES
 
@@ -310,10 +398,16 @@ not yet been tested.
 
 =head1 BUGS
 
-None known yet.
+None presently known.
 
 =head1 AUTHOR
 
 Daniel Yacob,  L<Yacob@EthiopiaOnline.Net|mailto:Yacob@EthiopiaOnline.Net>
+
+=head1 SEE ALSO
+
+Included with this package:
+
+  doc/index.html    examples/overload.pl    examples/asfunction.pl
 
 =cut
