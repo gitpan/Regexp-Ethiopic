@@ -1,0 +1,10 @@
+Changes
+MANIFEST
+Makefile.PL
+README
+doc/index.html
+examples/overload.pl
+examples/asfunction.pl
+lib/Regexp/Ethiopic.pm
+lib/Regexp/Ethiopic/Amharic.pm
+t/01re.t
