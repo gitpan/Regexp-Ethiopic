@@ -10,7 +10,7 @@ use vars qw($VERSION @EXPORT_OK %AmharicEquivalence %AmharicClassEquivalence);
 # require Regexp::Ethiopic;
 
 
-	$VERSION = 0.03;
+	$VERSION = "0.05";
 	
 	@EXPORT_OK = qw(%AmharicEquivalence %AmharicClassEquivalence);
 
@@ -166,8 +166,8 @@ sub getRe
 $_ = ($#_) ? $_[1] : $_[0];
 
 
-	s/\[=(\p{Ethiopic})=\]/($AmharicEquivalence{$1}) ? "[$AmharicEquivalence{$1}]" : ""/eog;
-	s/\[=#(\p{Ethiopic})#=\]/($AmharicClassEquivalence{$1}) ? "[$AmharicClassEquivalence{$1}]" : ""/eog;
+	s/\[=(\p{Ethiopic})=\]/($AmharicEquivalence{$1}) ? "[$AmharicEquivalence{$1}]" : $1/eog;
+	s/\[=#(\p{Ethiopic})#=\]/($AmharicClassEquivalence{$1}) ? "[$AmharicClassEquivalence{$1}]" : $1/eog;
 
 	Regexp::Ethiopic::getRe ( $_ );
 }

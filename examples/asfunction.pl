@@ -32,7 +32,7 @@ __END__
 
 =head1 NAME
 
-asfunction.pl - Test Ethiopic RE String Generation
+asfunction.pl - Test Ethiopic RE String Generation.
 
 =head1 SYNOPSIS
 

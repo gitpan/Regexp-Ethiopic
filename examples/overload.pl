@@ -72,7 +72,7 @@ __END__
 
 =head1 NAME
 
-overload.pl - Test Ethiopic RE Overloading
+overload.pl - Test Ethiopic RE Overloading.
 
 =head1 SYNOPSIS
 
