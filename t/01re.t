@@ -27,20 +27,15 @@ my $string = "([=አ=])ለም[=ጸ=][=ሃ=]ይ";
 my $qrString = qr/([=አ=])ለም[=ጸ=][=ሃ=]ይ/;
 is ( ($test =~ /$qrString/), 1, "Alemtsehay overload qr-string match" );
 
-#
-# we should  not *really* be using both modes together..
-# 0 added as first arg to get around mode conflict,
-# fix this in next version
-#
-my $re = Regexp::Ethiopic::Amharic::getRe ( 0, $string );
+my $re = Regexp::Ethiopic::Amharic::getRe ( $string );
 is ( ($re eq "([አዓዐኣ])ለም[ጸፀ][ሀሃሐሓኀኃኻ]ይ"), 1, "Alemtsehay function string create" );
 is ( ($test =~ /$re/), 1, "Alemtsehay function match" );
 
-$re = Regexp::Ethiopic::Amharic::getRe ( 0, "[ጸለ-መ]%{3,5-7}" );
+$re = Regexp::Ethiopic::Amharic::getRe ( "[ጸለ-መ]%{3,5-7}" );
 is ( ($re eq "[ጺሊሒሚጼሌሔሜጽልሕምጾሎሖሞ]"), 1, "[ጸለ-መ]%{3,5-7} Expansion" );
-$re = Regexp::Ethiopic::Amharic::getRe ( 0, "[:kaib:]" );
+$re = Regexp::Ethiopic::Amharic::getRe ( "[:kaib:]" );
 is ( ($re eq "[ሁሉሐሙሡሩሱሹቁቑቡቩቱቹኁኑኙኡኩኹዉዑዙዡዩዱዹጁጉጙጡጩጱጹፁፉፑ]"), 1, "Kaib Expansion" );
-$re = Regexp::Ethiopic::Amharic::getRe ( 0, "[:ካዕብ:]" );
+$re = Regexp::Ethiopic::Amharic::getRe ( "[:ካዕብ:]" );
 is ( ($re eq "[ሁሉሐሙሡሩሱሹቁቑቡቩቱቹኁኑኙኡኩኹዉዑዙዡዩዱዹጁጉጙጡጩጱጹፁፉፑ]"), 1, "ካዕብ Expansion" );
-$re = Regexp::Ethiopic::Amharic::getRe ( 0, "[#ለ#]" );
+$re = Regexp::Ethiopic::Amharic::getRe ( "[#ለ#]" );
 is ( ($re eq "[ለ-ሏ]"), 1, "[#ለ#] Expansion" );

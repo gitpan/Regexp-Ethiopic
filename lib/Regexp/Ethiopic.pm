@@ -1,18 +1,15 @@
 package Regexp::Ethiopic;
 use base qw(Exporter);
 
+use utf8;
 BEGIN
 {
-use utf8;
 use strict;
-use vars qw($VERSION @EXPORT_OK %EthiopicClasses $reIndex);
+use vars qw($VERSION @EXPORT_OK %EthiopicClasses);
 
-	$VERSION = 0.01;
+	$VERSION = 0.02;
 	
 	@EXPORT_OK = qw (%EthiopicClasses);
-
-	$reIndex = 0;
-
 
 
 %EthiopicClasses =(
@@ -65,7 +62,7 @@ use vars qw($VERSION @EXPORT_OK %EthiopicClasses $reIndex);
 	ፀ	=> "ፀ-ፆ",
 	ፈ	=> "ፈ-ፏ",
 	ፐ	=> "ፐ-ፗ",
-	አኅዝ	=> "፩-፼"
+	አኃዝ	=> "፩-፼"
 );
 
 $EthiopicClasses{'ግዕዝ'}
@@ -116,8 +113,8 @@ $EthiopicClasses{'ዘመደ:ኃምስ'}
 	= $EthiopicClasses{'zemede:hamis'}
 	= $EthiopicClasses{12}
 	;
-$EthiopicClasses{'ahiz'}
-	= $EthiopicClasses{'አኅዝ'}
+$EthiopicClasses{'ahaz'}
+	= $EthiopicClasses{'አኃዝ'}
 	;
 
 }
@@ -130,7 +127,6 @@ sub import
 		if ( /overload/ ) {
 			use overload;
 			overload::constant 'qr' => \&getRe;
-			$reIndex = 1;  # the valid utf-8 arg in the call back
 		}
 		else {
 			push (@args, $_);
@@ -205,7 +201,7 @@ $not ||= $_[3];
 
 sub getRe
 {
-$_ = $_[$reIndex];
+$_ = ($#_) ? $_[1] : $_[0];
 
 
 	s/\[[#:](\p{InEthiopic}+|\d+)[#:]\]/[$EthiopicClasses{$1}]/g;

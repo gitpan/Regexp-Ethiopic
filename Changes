@@ -1,2 +1,6 @@
+0.02 Mon Mar 17 09:33:06 EST 2003
+	- overloading and functional use play together nicely.
+	- "use utf8" statement moved outside of "BEGIN" block.
+
 0.01 Fri Mar 7 14:23:48 EST 2003
 	- initial release.

@@ -2,19 +2,18 @@ package Regexp::Ethiopic::Amharic;
 use base qw(Regexp::Ethiopic);  #  this might be more useful later,
                                 #  we at least get "Exporter" for free.
 
+use utf8;
 BEGIN
 {
 use strict;
-use utf8;
-use vars qw($VERSION @EXPORT_OK %AmharicEquivalence %AmharicClassEquivalence $reIndex);
+use vars qw($VERSION @EXPORT_OK %AmharicEquivalence %AmharicClassEquivalence);
 # require Regexp::Ethiopic;
 
 
-	$VERSION = 0.01;
+	$VERSION = 0.02;
 	
 	@EXPORT_OK = qw(%AmharicEquivalence %AmharicClassEquivalence);
 
-	$reIndex = 0;
 
 #
 #  Amharic Rules Orthography Equivalence
@@ -143,7 +142,6 @@ sub import
 		if ( /overload/ ) {
 			use overload;
 			overload::constant 'qr' => \&getRe;
-			$reIndex = 1;  # the valid utf-8 arg in the call back
 		}
 		elsif ( /EthiopicClasses/ ) {
 			Regexp::Ethiopic->export_to_level (1, "Regexp::Ethiopic", $_);
@@ -161,7 +159,7 @@ sub import
 
 sub getRe
 {
-$_ = $_[$reIndex];
+$_ = ($#_) ? $_[1] : $_[0];
 
 
 	s/\[=(\p{InEthiopic})=\]/[$AmharicEquivalence{$1}]/g;
