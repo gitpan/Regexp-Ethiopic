@@ -6,13 +6,13 @@ use utf8;
 BEGIN
 {
 use strict;
-use vars qw($VERSION @EXPORT_OK %GeezEquivalence %GeezClassEquivalence);
+use vars qw($VERSION @EXPORT_OK %GeezEquivalence);
 # require Regexp::Ethiopic;
 
 
-	$VERSION = "0.05";
+	$VERSION = "0.06";
 	
-	@EXPORT_OK = qw(%GeezEquivalence %GeezClassEquivalence);
+	@EXPORT_OK = qw(%GeezEquivalence);
 
 
 #
@@ -94,7 +94,6 @@ $_ = ($#_) ? $_[1] : $_[0];
 
 
 	s/\[=(\p{Ethiopic})=\]/($GeezEquivalence{$1}) ? "[$GeezEquivalence{$1}]" : $1/eog;
-	s/\[=#(\p{Ethiopic})#=\]/($GeezClassEquivalence{$1}) ? "[$GeezClassEquivalence{$1}]" : $1/eog;
 
 	Regexp::Ethiopic::getRe ( $_ );
 }
@@ -157,7 +156,7 @@ under Geez orthography rules.
 
 The Regexp::Ethiopic::Geez uses Regexp::Ethiopic so generally you
 would not need to import both.  Regexp::Ethiopic::Geez conditionally
-exports the hashes %GeezEquivalence and %GeezClassEquivalence
+exports the hash %GeezEquivalence 
 should you wish to use them.  Regexp::Ethiopic::Geez can also
 export %EthiopiClass of Regexp::Ethiopic:
 

@@ -63,8 +63,6 @@ print "Amharic Family Equivalence Test...\n";
 print "  ፈተና ፳፱፦ ዓለምፀሐይ contains [=#ጸ#=]\n" if ( $ፈተና =~ /[=#ጸ#=]/ );
 print "  ፈተና ፴፦ ዓለምፀሐይ contains [=#ሀ#=]\n"  if ( $ፈተና =~ /[=#ሀ#=]/ );
 
-print "  ፈተና ፴፩፦ ቤቷ contains [=#10#=]\n"    if ( "ቤቷ" =~ /[=#10#=]/ );
-
 }
 
 

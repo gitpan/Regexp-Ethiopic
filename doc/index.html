@@ -7,8 +7,6 @@
 
 <h1 align="center">Ethiopic Character Classes</h1>
 
-<h2><u>From Regexp::Ethiopic</u></h2>
-
 <h3>Why Ethiopic Character Classes?</h3>
 
 <p align="justify">Because they're not there!  Why character classes at all?
@@ -24,20 +22,30 @@ should be matched independently.  Each letter is a syllable, a "CV" pattern,
 a means to detect either the "C" part or the "V" part is highly desirable.
 There are 7 basic "V" forms shared by 37 "C" bases.  This gives us 7 classes
 each containing 37 members and the inversion of 37 "C" classes each of 7
-members. 
+members.  We need a simple way to specify these groups without typing out
+every member of the group in a bracketed list.</p>
 
-
-The number of elements per class is indeed larger than a number existing
-already defined character classes.
-</p>
-
-
+<p align="justify">
 But isn't this just a matter of convenience?  Yes, but we like convenience,
-that's why we have character classes and REs to begin with.
-We have both \d and [:digit:] when [0-9], and 
+that's why we have character classes and REs to begin with.  Since Perl 5.6
+Unicode derived character classes have been introduced in the form of
+<code>\p{IsDigit}</code>.
+While this is great for working across scripts in a multilingual
+document or archive, it is less nice when working with documents you know
+are English only.  Really, would you use <code>\p{IsDigit}</code> when you
+could more easily use <code>\d</code> (or <code>[0-9]</code>
+or <code>[:digit:]</code>)??</p>
+
+<p align="justify">
+This package offers overloading of the Perl regular expressions mechanism
+to provide syllabic style character class definitions with the convenience
+and ease of use POSIX notation.  See the <code>examples/</code> directory
+and module documentation for details.</p>
 
 
-<h3>Equivalence of Family (row) and Equivalence of Form (column)</h3>
+<h2><u>Character Classes From Regexp::Ethiopic</u></h2>
+<a name="grid"/>
+<h3>Syllabic Classes: Equivalence of Family (row) and Equivalence of Form (column)</h3>
 
 <table border="1">
 <tr align="center">
@@ -694,7 +702,7 @@ We have both \d and [:digit:] when [0-9], and
 <p>&nbsp;</p>
 <hr size="2">
 
-<h2><u>From Regexp::Ethiopic::Amharic</u></h2>
+<h2><u>Character Classes From Regexp::Ethiopic::Amharic</u></h2>
 
 <table border=0">
 <tr valign="top">
@@ -775,7 +783,7 @@ We have both \d and [:digit:] when [0-9], and
    <td>[ቆቈ]</td>
   </tr>
   <tr>
-   <th>[=አ=]<br>[=ዐ=]<br>[=ኣ=]<br>[=ዓ=]</th>
+   <th>[=አ=]<br>[=ኣ=]<br>[=ዐ=]<br>[=ዓ=]</th>
    <td>[አኣዐዓ]</td>
   </tr>
   <tr>
@@ -836,7 +844,8 @@ We have both \d and [:digit:] when [0-9], and
   </tr>
 </table>
 
-</td><td>
+</td><td>&nbsp;</td><td>
+
 
 <h3 align="center">Equivalence of Families</h3>
 <table border="1">
@@ -868,6 +877,525 @@ We have both \d and [:digit:] when [0-9], and
 <p>&nbsp;</p>
 <hr size="2">
 
+<h2><u>Character Classes From Regexp::Ethiopic::Tigrigna</u></h2>
+
+
+<table border=0">
+<tr valign="top">
+<td>
+
+<h3>Equivalence in Phono-Orthography</h3>
+<table border="1">
+  <tr>
+    <th>Class</th>
+    <th>Perl RE Expansion</th>
+  </tr>
+  <tr>
+   <th>[=ሀ=]<br>[=ሃ=]<br>[=ኀ=]<br>[=ኃ=]</th>
+   <td>[ሀሃኀኃ]</td>
+  </tr>
+  <tr>
+   <th>[=ሁ=]<br>[=ኁ=]</th>
+   <td>[ሁኁ]</td>
+  </tr>
+  <tr>
+   <th>[=ሂ=]<br>[=ኂ=]</th>
+   <td>[ሂኂ]</td>
+  </tr>
+  <tr>
+   <th>[=ሄ=]<br>[=ኄ=]</th>
+   <td>[ሄኄ]</td>
+  </tr>
+  <tr>
+   <th>[=ህ=]<br>[=ኅ=]</th>
+   <td>[ህኅ]</td>
+  </tr>
+  <tr>
+   <th>[=ሆ=]<br>[=ኆ=]<br>[=ኈ=]</th>
+   <td>[ሆኆኈ]</td>
+  </tr>
+  <tr>
+   <th>[=ሐ=]<br>[=ሓ=]</th>
+   <td>[ሐሓ]</td>
+  </tr>
+  <tr>
+   <th>[=ሰ=]<br>[=ሠ=]</th>
+   <td>[ሰሠ]</td>
+  </tr>
+  <tr>
+   <th>[=ሱ=]<br>[=ሡ=]</th>
+   <td>[ሱሡ]</td>
+  </tr>
+  <tr>
+   <th>[=ሲ=]<br>[=ሢ=]</th>
+   <td>[ሲሢ]</td>
+  </tr>
+  <tr>
+   <th>[=ሳ=]<br>[=ሣ=]</th>
+   <td>[ሳሣ]</td>
+  </tr>
+  <tr>
+   <th>[=ሴ=]<br>[=ሤ=]</th>
+   <td>[ሴሤ]</td>
+  </tr>
+  <tr>
+   <th>[=ስ=]<br>[=ሥ=]</th>
+   <td>[ስሥ]</td>
+  </tr>
+  <tr>
+   <th>[=ሶ=]<br>[=ሦ=]</th>
+   <td>[ሶሦ]</td>
+  </tr>
+  <tr>
+   <th>[=ሷ=]<br>[=ሧ=]</th>
+   <td>[ሷሧ]</td>
+  </tr>
+  <tr>
+   <th>[=ቁ=]<br>[=ቍ=]</th>
+   <td>[ቁቍ]</td>
+  </tr>
+  <tr>
+   <th>[=ቆ=]<br>[=ቈ=]</th>
+   <td>[ቆቈ]</td>
+  </tr>
+  <tr>
+   <th>[=አ=]<br>[=ኣ=]</th>
+   <td>[አኣ]</td>
+  </tr>
+  <tr>
+   <th>[=ኮ=]<br>[=ኰ=]</th>
+   <td>[ኮኰ]</td>
+  </tr>
+  <tr>
+   <th>[=ዐ=]<br>[=ዓ=]</th>
+   <td>[ዐዓ]</td>
+  </tr>
+  <tr>
+   <th>[=ጎ=]<br>[=ጐ=]</th>
+   <td>[ጎጐ]</td>
+  </tr>
+  <tr>
+   <th>[=ጸ=]<br>[=ፀ=]</th>
+   <td>[ጸፀ]</td>
+  </tr>
+  <tr>
+   <th>[=ጹ=]<br>[=ፁ=]</th>
+   <td>[ጹፁ]</td>
+  </tr>
+  <tr>
+   <th>[=ጺ=]<br>[=ፂ=]</th>
+   <td>[ጺፂ]</td>
+  </tr>
+  <tr>
+   <th>[=ጻ=]<br>[=ፃ=]</th>
+   <td>[ጻፃ]</td>
+  </tr>
+  <tr>
+   <th>[=ጼ=]<br>[=ፄ=]</th>
+   <td>[ጼፄ]</td>
+  </tr>
+  <tr>
+   <th>[=ጽ=]<br>[=ፅ=]</th>
+   <td>[ጽፅ]</td>
+  </tr>
+  <tr>
+   <th>[=ጾ=]<br>[=ፆ=]</th>
+   <td>[ጾፆ]</td>
+  </tr>
+</table>
+
+</td><td>&nbsp;</td><td>
+
+<h3 align="center">Equivalence of Families</h3>
+<table border="1">
+  <tr>
+    <th>Class</th>
+    <th>Perl RE Expansion</th>
+  </tr>
+  <tr>
+    <th>[=#ሀ#=]<br>[=#ኀ#=]</th>
+    <td>[ሀ-ሆኀ-ኆኈ-ኍ]</td>
+  </tr>
+  <tr>
+    <th>[=#ሰ#=]<br>[=#ሠ#=]</th>
+    <td>[ሰ-ሷሠ-ሧ]</td>
+  </tr>
+  <tr>
+    <th>[=#ጸ#=]<br>[=#ፀ#=]</th>
+    <td>[ጸ-ጿፀ-ፆ]</td>
+  </tr>
+</table>
+
+</tr>
+</table>
+
+<p>&nbsp;</p>
+<hr size="2">
+
+<h2><u>Character Classes From Regexp::Ethiopic::Geez</u></h2>
+
+
+<table border=0">
+<tr valign="top">
+<td>
+
+<h3>Equivalence in Phono-Orthography</h3>
+<table border="1">
+  <tr>
+    <th>Class</th>
+    <th>Perl RE Expansion</th>
+  </tr>
+  <tr>
+   <th>[=ሀ=]<br>[=ሃ=]</th>
+   <td>[ሀሃ]</td>
+  </tr>
+  <tr>
+   <th>[=ሐ=]<br>[=ሓ=]</th>
+   <td>[ሐሓ]</td>
+  </tr>
+  <tr>
+   <th>[=ኀ=]<br>[=ኃ=]</th>
+   <td>[ኀኃ]</td>
+  </tr>
+  <tr>
+   <th>[=አ=]<br>[=ኣ=]</th>
+   <td>[አኣ]</td>
+  </tr>
+  <tr>
+   <th>[=ኮ=]<br>[=ኰ=]</th>
+   <td>[ኮኰ]</td>
+  </tr>
+  <tr>
+   <th>[=ዐ=]<br>[=ዓ=]</th>
+   <td>[ዐዓ]</td>
+  </tr>
+  <tr>
+   <th>[=ጎ=]<br>[=ጐ=]</th>
+   <td>[ጎጐ]</td>
+  </tr>
+</table>
+
+</td><td>&nbsp;</td><td>
+
+<h3 align="center">Equivalence of Families</h3>
+<div align="center"><em>none ocurring</em></div>
+
+</tr>
+</table>
+
+<p>&nbsp;</p>
+<hr size="2">
+
+<h3>Matching by Example</h3>
+
+<p align="justify"></p>
+
+The name "ዓለምፀሐይ" is a compound word formed from "ዓለም" (world) and "ፀሐይ" (sun).  It
+is a particularly useful word to test with because it has a great many possible
+renderings depending on the language and writing conventions.  Not all renderings that
+are possible are also probable:</p>
+
+<table border="1">
+<caption><strong>Probability Distribution of the 56 Renderings of ዓለምፀሐይ</strong></caption>
+<tbody>
+<tr>
+  <th></th>
+  <th>Amharic</th>
+  <th>Tigrigna-ER</th>
+  <th>Tigrigna-ET</th>
+  <th>Ge'ez</th>
+</tr>
+<tr>
+  <th>Valid and Probable</th>
+  <td>
+    ዓለምፀሐይ ዓለምጸሐይ ዓለምጸሃይ ዓለምፀሃይ
+    አለምፀሐይ አለምጸሐይ አለምጸሃይ አለምፀሃይ
+  </td>
+  <td>
+    ዓለምጸሓይ 
+  </td>
+  <td>
+    ዓለምፀሐይ ዓለምጸሐይ
+  </td>
+  <td>ዓለምፀሐይ</td>
+</tr>
+<tr>
+  <th>Intermediate Probablity</th>
+  <td>
+    አለምጸሀይ አለምፀሀይ ዓለምጸሀይ ዓለምፀሀይ 
+    ዐለምፀሐይ ዐለምጸሐይ 
+    ዐለምጸሃይ ዐለምፀሃይ ዐለምጸሀይ ዐለምፀሀይ 
+  </td>
+  <td>ዓለምጸሐይ ዐለምጸሓይ ዐለምጸሐይ ዓለምፀሐይ</td>
+  <td>ዓለምጸሓይ ዓለምፀሓይ</td>
+  <td>ዐለምፀሐይ</td>
+</tr>
+<tr>
+  <th>Valid but Improbable</th>
+  <td>
+    ዓለምጸኃይ ዓለምጸኀይ ዓለምፀኃይ ዓለምፀኀይ
+    ዓለምጸሓይ ዓለምፀሓይ ዓለምጸኻይ ዓለምፀኻይ
+    አለምጸኃይ አለምጸኀይ አለምፀኃይ አለምፀኀይ
+    አለምጸሓይ አለምፀሓይ አለምጸኻይ አለምፀኻይ
+    ዐለምጸኃይ ዐለምጸኀይ ዐለምፀኃይ ዐለምፀኀይ
+    ዐለምጸሓይ ዐለምፀሓይ ዐለምጸኻይ ዐለምፀኻይ
+    ኣለምፀሐይ ኣለምጸሐይ ኣለምጸሃይ ኣለምፀሃይ ኣለምጸሀይ ኣለምጸኃይ ኣለምጸኀይ 
+    ኣለምፀሀይ ኣለምፀኃይ ኣለምፀኀይ ኣለምጸሓይ ኣለምፀሓይ ኣለምጸኻይ ኣለምፀኻይ
+  </td>
+  <td>ዓለምፀሓይ ዐለምፀሐይ ዐለምፀሓይ</td>
+  <td>ዐለምፀሐይ ዐለምጸሐይ ዐለምጸሓይ ዐለምፀሓይ</td>
+  <td>ዓለምፀሓይ ዐለምፀሓይ</td>
+</tr>
+<tr>
+  <th>Impossible (Invalid Phonemes)</th>
+  <td>&nbsp;</td>
+  <td> <!-- Ti-ER -->
+              ዓለምጸሃይ ዓለምፀሃይ ዓለምጸሀይ ዓለምጸኃይ ዓለምጸኀይ
+ዓለምፀሀይ ዓለምፀኃይ ዓለምፀኀይ               ዓለምጸኻይ ዓለምፀኻይ
+
+አለምፀሐይ አለምጸሐይ አለምጸሃይ አለምፀሃይ አለምጸሀይ አለምጸኃይ አለምጸኀይ
+አለምፀሀይ አለምፀኃይ አለምፀኀይ አለምጸሓይ አለምፀሓይ አለምጸኻይ አለምፀኻይ
+
+              ዐለምጸሃይ ዐለምፀሃይ ዐለምጸሀይ ዐለምጸኃይ ዐለምጸኀይ
+ዐለምፀሀይ ዐለምፀኃይ ዐለምፀኀይ               ዐለምጸኻይ ዐለምፀኻይ
+
+ኣለምፀሐይ ኣለምጸሐይ ኣለምጸሃይ ኣለምፀሃይ ኣለምጸሀይ ኣለምጸኃይ ኣለምጸኀይ 
+ኣለምፀሀይ ኣለምፀኃይ ኣለምፀኀይ ኣለምጸሓይ ኣለምፀሓይ ኣለምጸኻይ ኣለምፀኻይ
+  </td>
+  <td> <!-- Ti-ET -->
+              ዓለምጸሃይ ዓለምፀሃይ ዓለምጸሀይ ዓለምጸኃይ ዓለምጸኀይ
+ዓለምፀሀይ ዓለምፀኃይ ዓለምፀኀይ               ዓለምጸኻይ ዓለምፀኻይ
+
+አለምፀሐይ አለምጸሐይ አለምጸሃይ አለምፀሃይ አለምጸሀይ አለምጸኃይ አለምጸኀይ
+አለምፀሀይ አለምፀኃይ አለምፀኀይ አለምጸሓይ አለምፀሓይ አለምጸኻይ አለምፀኻይ
+
+              ዐለምጸሃይ ዐለምፀሃይ ዐለምጸሀይ ዐለምጸኃይ ዐለምጸኀይ
+ዐለምፀሀይ ዐለምፀኃይ ዐለምፀኀይ               ዐለምጸኻይ ዐለምፀኻይ
+
+ኣለምፀሐይ ኣለምጸሐይ ኣለምጸሃይ ኣለምፀሃይ ኣለምጸሀይ ኣለምጸኃይ ኣለምጸኀይ 
+ኣለምፀሀይ ኣለምፀኃይ ኣለምፀኀይ ኣለምጸሓይ ኣለምፀሓይ ኣለምጸኻይ ኣለምፀኻይ
+  </td>
+  <td> <!-- Ge'ez -->
+       ዓለምጸሐይ ዓለምጸሃይ ዓለምፀሃይ ዓለምጸሀይ ዓለምጸኃይ ዓለምጸኀይ
+ዓለምፀሀይ ዓለምፀኃይ ዓለምፀኀይ ዓለምጸሓይ        ዓለምጸኻይ ዓለምፀኻይ
+
+አለምፀሐይ አለምጸሐይ አለምጸሃይ አለምፀሃይ አለምጸሀይ አለምጸኃይ አለምጸኀይ
+አለምፀሀይ አለምፀኃይ አለምፀኀይ አለምጸሓይ አለምፀሓይ አለምጸኻይ አለምፀኻይ
+
+       ዐለምጸሐይ ዐለምጸሃይ ዐለምፀሃይ ዐለምጸሀይ ዐለምጸኃይ ዐለምጸኀይ
+ዐለምፀሀይ ዐለምፀኃይ ዐለምፀኀይ        ዐለምጸሓይ ዐለምጸኻይ ዐለምፀኻይ
+
+ኣለምፀሐይ ኣለምጸሐይ ኣለምጸሃይ ኣለምፀሃይ ኣለምጸሀይ ኣለምጸኃይ ኣለምጸኀይ 
+ኣለምፀሀይ ኣለምፀኃይ ኣለምፀኀይ ኣለምጸሓይ ኣለምፀሓይ ኣለምጸኻይ ኣለምፀኻይ
+  </td>
+</tr>
+</tbody>
+</table>
+
+<p align="justify">
+The following shows by example how the character classes may be applied
+to the ዓለምፀሐይ example.  The majority of the examples also appear in
+the <code>overload.pl</code> script found in the <code>examples</code>
+directory.
+</p>
+
+<h4><u>Basic Property Matching</u></h4>
+
+<dl>
+  <dt>/([=አ=])ለም[=ጸ=][=ሃ=]ይ/</dt>
+  <dd>Will match <span style="color:red"><u>ዓ</u></span>ለም<span style="color:red"><u>ፀሐ</u></span>ይ
+      as ዓ is in the Amharic equivalence set of አ, ፀ is in the Amharic &amp; Tigrigna equivalence of ጸ
+      and ሐ is in the Amharic equivalence of ሃ.  This expression only matches for Amharic equivalence
+      classes.</dd><br/>&nbsp;<br/>
+  <dt>/([=ዐ=])ለም[=ጸ=][=ሓ=]ይ/</dt>
+  <dd>Will match <span style="color:red"><u>ዓ</u></span>ለም<span style="color:red"><u>ፀሐ</u></span>ይ
+      as ዓ is in the Amharic &amp; Tigrigna equivalence set of ዐ,
+      ፀ is in the Amharic &amp; Tigrigna equivalence of ጸ
+      and ሐ is in the Amharic &amp; Tigrigna equivalence of ሓ.
+      This expression matches for Amharic and Tigrigna equivalence classes.</dd><br/>&nbsp;<br/>
+  <dt>/[#ለ#]ም/</dt>
+  <dd>Will match ዓ<span style="color:red"><u>ለም</u></span>ፀሐይ as ለ
+      is a member of the "ለ family" and preceeds ም.</dd><br/>&nbsp;<br/>
+  <dt>/[#4#]ለ/</dt>
+  <dd>Will match <span style="color:red"><u>ዓለ</u></span>ምፀሐይ as ዓ
+      is a of the "4<sup>th</sup> form" and preceeds ለ.</dd>
+</dl>
+
+<h4><u>Form Range Matching</u></h4>
+
+<dl>
+  <dt>/[#4-6#]ለ/</dt>
+  <dd>Will match <span style="color:red"><u>ዓለ</u></span>ምፀሐይ as ዓ
+      is a of the "4<sup>th</sup> <em>through</em> 6<sup>th</sup> form" and preceeds ለ.</dd><br/>&nbsp;<br/>
+  <dt>/[#4,6#]ለ/</dt>
+  <dd>Will match <span style="color:red"><u>ዓለ</u></span>ምፀሐይ as ዓ
+      is a of the "4<sup>th</sup> <em>or</em> 6<sup>th</sup> form" and preceeds ለ.</dd><br/>&nbsp;<br/>
+  <dt>/[#ዘ-ገ#]/</dt>
+  <dd>Will match ዓለምፀሐ<span style="color:red"><u>ይ</u></span>as ይ
+      is a member of the "ዘ <em>through</em> ገ family range".</dd><br/>&nbsp;<br/>
+  <dt>/[#መነበ#]/</dt>
+  <dd>Will match ዓለ<span style="color:red"><u>ም</u></span>ፀሐይ as ም
+      is a member of the "መ <em>or</em> ነ <em>or</em> በ family".</dd>
+</dl>
+
+
+<h4><u>Form Range Operator Matching</u></h4>
+<dl>
+  <dt>/መ{%4-7}/</dt>
+  <dd>Will match ዓለ<span style="color:red"><u>ም</u></span>ፀሐይ as ም
+      is the "6<sup>th</sup> form" of the "መ family" and is within the specified
+      form range of 4-7.</dd><br/>&nbsp;<br/>
+  <dt>/ፀ{%1,3-5,7}/</dt>
+  <dd>Will match ዓለም<span style="color:red"><u>ፀ</u></span>ሐይ as ፀ
+      is the "1<sup>st</sup> form" of the "ፀ family" and is within the specified
+      form range of 1 or 3-5 or 7.</dd><br/>&nbsp;<br/>
+  <dt>/ጸ{%3}/</dt>
+  <dd>Fails to match ዓለምፀሐይ as ጸ does not appear in the 3<sup>rd</sup> form.</dd><br/>&nbsp;<br/>
+  <dt>/[ሐጸ]{%4}/</dt>
+  <dd>Fails to match ዓለምፀሐይ as ሐ or ጸ do not appear in the 4<sup>th</sup> form.</dd><br/>&nbsp;<br/>
+  <dt>/[ሐጸ]{%3,5}/</dt>
+  <dd>Fails to match ዓለምፀሐይ as ሐ or ጸ do not appear in the 3<sup>rd</sup> or 5<sup>th</sup> form.</dd><br/>&nbsp;<br/>
+  <dt>/[ለ-መ]{%6}/</dt>
+  <dd>Will match ዓለ<span style="color:red"><u>ም</u></span>ፀሐይ as ም
+      is of the "ለ through መ" families and is of the "6<sup>th</sup> form".</dd><br/>&nbsp;<br/>
+  <dt>/[ለ-መ]{%3,5}/</dt>
+  <dd>Fails to match ዓለምፀሐይ as no member of the "ለ through መ families" are present in the 3<sup>rd</sup>
+      or 5<sup>th</sup> form.</dd><br/>&nbsp;<br/>
+  <dt>/[ለ-መ]{%3,5-7}/</dt>
+  <dd>Will match ዓለ<span style="color:red"><u>ም</u></span>ፀሐይ as ም
+      is of the "ለ through መ families" and is of the "6<sup>th</sup> form" which is within
+      the specified range of 3<sup>rd</sup> or 5<sup>th</sup> through 7<sup>th</sup>.</dd><br/>&nbsp;<br/>
+  <dt>/[ጸለ-መ]{%4}/</dt>
+  <dd>Fails to match ዓለምፀሐይ as no member of the "ጸ or ለ through መ families" are present in the 4<sup>th</sup> form.</dd><br/>&nbsp;<br/>
+  <dt>/[ጸለ-መ]{%3,5-7}/</dt>
+  <dd>Will match ዓለ<span style="color:red"><u>ም</u></span>ፀሐይ as ም
+      is of the "ጸ or ለ through መ families" and is of the "6<sup>th</sup> form" which is within
+      the specified range of 3<sup>rd</sup> or 5<sup>th</sup> through 7<sup>th</sup>.</dd>
+</dl>
+
+<h4><u>Negation Matching</u></h4>
+<dl>
+  <dt>/[ሐጸ]{^%4}/</dt>
+  <dd>Will match ዓለምፀ<span style="color:red"><u>ሐ</u></span>ይ as ሐ
+      is a member of "ሐ or ጸ family" and not of the 4<sup>th</sup> form.</dd><br/>&nbsp;<br/>
+  <dt>/[^ሐጸ]{%4}/</dt>
+  <dd>Will match <span style="color:red"><u>ዓ</u></span>ለምፀሐይ as ዓ
+      is not a member of "ሐ or ጸ family" and is of the 4<sup>th</sup> form.</dd><br/>&nbsp;<br/>
+  <dt>/[^ሐጸ]{^%4}/</dt>
+  <dd>Is equivalent to the last expression.  Only one negative is interpretted, this is because
+      a double negative remains negative in Ethio-Semetic grammar.</dd>
+</dl>
+
+<h4><u>Ethiopic Class Matching</u></h4>
+<dl>
+  <dt>if ( "ኩ" =~ /[#ከ#]/ )</dt>
+  <dd>Is a true expression because ኩ is a member of the ከ family.</dd><br/>&nbsp;<br/>
+  <dt>if ( "ኩ" =~ /[#2#]/ )</dt>
+  <dd>Is a true expression because ኩ is a of the 2<sup>nd</sup> form.</dd><br/>&nbsp;<br/>
+  <dt>if ( "ኩ" =~ /[:ካዕብ:]/ )</dt>
+  <dd>Is a true expression because ኩ is in the class of ካዕብ.</dd><br/>&nbsp;<br/>
+  <dt>if ( "ኩ" =~ /[:kaib:]/ )</dt>
+  <dd>Is a true expression because ኩ is in the class of kaib ("kaib" is a transcription of "ካዕብ").</dd>
+</dl>
+
+
+<h4><u>Amharic Family Equivalence Matching</u></h4>
+<dl>
+  <dt>/[=#ጸ#=]/</dt>
+  <dd>Will match ዓለም<span style="color:red"><u>ፀ</u></span>ሐይ as ሐ
+      is a member of "ጸ family equivalence" in Amharic and Tigrigna.</dt><br/>&nbsp;<br/>
+  <dt>/[=#ሀ#=]/</dt>
+  <dd>Will match ዓለምፀ<span style="color:red"><u>ሐ</u></span>ይ as ሐ
+      is a member of "ሀ family equivalence" in Amharic.  The expression does not match for
+      languages.</dt><br/>&nbsp;<br/>
+  <dt>/[=#ጸ#=]{%3-5}/</dt>
+  <dd>Fails to match ዓለምፀሐይ as ጸ equivalence family members do not appear in the 3<sup>rd</sup> through 5<sup>th</sup> forms.</dd><br/>&nbsp;<br/>
+</dl>
+
+
+<p>&nbsp;</p>
+<hr size="2">
+
+<h3>Utility Functions</h3>
+
+<p align="justify">The Regexp::Ethiopic package (as well as subclasses) export
+a number of utility functions that operate on Ethiopic characters and strings.  Specify
+":utils" as an import option to bring the functions into the local namespace.
+</p>
+
+
+<h4>getForm( char )</h4>
+
+<p align="justify">A utility function to query the "form" of an Ethiopic syllable.  It will return an integer between 1 and 12 corresponding to the <code>[#\d+#]</code> classes.  The function used in the following example:</p>
+
+<dir>
+  <code>print getForm ( "አ" ), "\n";</code>
+</dir>
+
+<p align="justify">will print the number 1.</p>
+
+
+<h4>setForm( char, form )</h4>
+
+<p align="justify">A utility function to set the form number of a syllable.  The form number must be an integer between 1 and 12 corresponding to the <code>[#\d+#]</code> classes.  Useful in substitutions as per:</p>
+
+<dir>
+  <code>s/(.)/setForm($1, 1)/eg;</code>
+</dir>
+
+<p align="justify">where every matching character found will be converted into the first form.</p>
+
+
+<h4>subForm( char, form )</h4>
+
+<p align="justify">A utility function to set the form number of a syllable based on the form of another syllable.  Useful in substitutions as per:</p>
+
+<dir>
+  <code>s/(\w+)([#ፀ#])/$1.subForm('ጸ', $2)/eg;</code>
+</dir>
+
+<p align="justify">where every character in the class of <code>[#ፀ#])</code>
+will be converted to the 'ጸ' family in the form number of the matched character.  That is, if 'ፂ' is matched it will be converted to 'ጺ'.</p>
+
+
+<h4>formatForms( format, string )</h4>
+
+<p align="justify">A utility function somewhat analogous to <code>sprintf</code> for a sequence of syllables.  The first argument is the format where the desired symbol sequence is provided.  The second argument is the string to format.
+For example, the format string "%1%2%3%4" indicates that the first character of the argument should be in the first form, %1, the second character in the seconf form, %2, the third character in the third form %3, and the fourth character in the fourth form, %4.  For the argument "አበገደ":</p>
+
+<dir>
+  <code>print formatForms ( "%1%2%3%4", "አበገደ" ), "\n";</code>
+</dir>
+
+<p align="justify">the output would be "አቡጊዳ".</p>
+
+<h4>Alias Strings</h4>
+
+<p align="justify">Alias strings are also exported by the Regexp::Ethiopic
+package (as well as subclasses) that are assigned the the values 1-12
+corresponding to their form.    Specify ":forms" as an import option to bring
+the strings into the local namespace.  The names are assignments are given by:</p>
+
+<dir>
+  <code>
+  ($ግዕዝ, $ካዕብ, $ሣልስ, $ራብዕ, $ኃምስ, $ሳድስ, $ሳብዕ,
+  $ዘመደ_ግዕዝ, $ዘመደ_ካዕብ, $ዘመደ_ሣልስ, $ዘመደ_ራብዕ, $ዘመደ_ኃምስ) = (1 .. 12);
+  </code>
+</dir>
+
+<p align="justify">Example use:</p>
+
+<dir>
+  <code>if ( getForm ( $x ) == $ካዕብ ) {<br>
+    :<br>
+    :<br>
+  }</code>
+</dir>
+
+
+<p>&nbsp;</p>
+<hr size="2">
+
 <h3>Notes on Functional Use</h3>
 
 <p align="justify">The overloading of Perl's regular expressions mechanism
@@ -881,13 +1409,15 @@ use Regexp::Ethiopic 'overload';
 my $x = "ከ";
     :
     :
-	if ( /[#$x#]/ ) {
-	      :
-	      :
-	}
+if ( /[#$x#]/ ) {  # $x is a variable, /[#ከ#]/ is constant
+         :
+         :
+}
 </pre>
 
-<p align="justify">The package never gets to see the variable <code>$x</code> to then
+<p align="justify">The above expression is not identical to <code>/[#ከ#]/</code>
+because 'ከ' is constant whereas <code>$x</code> is a variable.
+The package never gets to see the variable <code>$x</code> to then
 perform the RE expansion.  The work around is to use the package as per:</p>
 
 <pre>
@@ -896,12 +1426,12 @@ use Regexp::Ethiopic 'overload';
 my $x = "ከ";
     :
     :
-	my $re = Regexp::Ethiopic::getRe ( "[#$x#]" );
+my $re = Regexp::Ethiopic::getRe ( "[#$x#]" );
 
-	if ( /$re/ ) {
-	      :
-	      :
-	}
+if ( /$re/ ) {
+       :
+       :
+}
 </pre>
 
 
@@ -919,9 +1449,9 @@ be used together without conflict.</p>
 class development was to stick with existing POSIX definitions and
 notation ([=x=], [:x:], etc) and simply apply them in the context of a syllabary.
 Shoe-horning syllabic classes into POSIX norms has proven at times to
-be both awkward and confusing.  As this package is experimental, a clean
-break is made at this time from previously proposed notations and class
-symbols are used that appear to be intuitive and easy to type.</p>
+be both awkward and confusing.  After a lenghty experimentaiton period a clean
+break was made from the POSIX class symbols and class
+symbols are applied that appear to be intuitive and easy to type.</p>
 
 <p align"justify">In large part, a complication for working with Ethiopic
 character classes easily has been the difference between the greater number of
@@ -930,19 +1460,20 @@ There are four types of character equivalence that are of interest in
 Ethiopic regular expressions:
 </p>
 
-The syllable x is:
+<p align="justify">The syllable x is:
 <ul>
   <li> <strong>[#xe#]:</strong>  a member of the "xe" family.</li>
   <li> <strong>[#\d#]:</strong> in the syllabic form of \d.</li>
   <li> <strong>[=y=]:</strong> homophonically equivalent in writing to other syllables in phoneme char "y".</li>
   <li> <strong>[=#ze#=]:</strong> a member of a family that is homophonically equivalent in writing to other families (family equivalence "ze").</li>
 </ul>
+</p>
 
-<p align="justify">The choice of # has been made at this time for no other reason than that symbol itself looks like the grid that the syllables are invariably presented in.
+<p align="justify">The choice of # has been made at this time for no other reason than that symbol itself looks like the <a href="#grid">grid</a> that the syllables are invariably presented in.
 The interpretation of the character between #s
-is made by the character's context as either a letter or numeral.  This may prove to be a good neumanic device.</p>
+is made by the character's context as either a letter or numeral.  This notation has been stable for some time and has proven to be a good neumanic device.</p>
 
-<p>Notation is of course subject to change. Putting theory into practice (and code!) and experimentation is the only real way to shake out the wilburries. Once settled GUS notation will be updated accordingly and I'll get back to IPA based pattern matching with GUS (aka "folding script").  Honest, for real this time... ;-)
+<!-- p>Notation is of course subject to change. Putting theory into practice (and code!) and experimentation is the only real way to shake out the wilburries. Once settled GUS notation will be updated accordingly and I'll get back to IPA based pattern matching with GUS (aka "folding script").  Honest, for real this time... ;-) -->
 <hr size="2">
 
 <h4>References</h4>
@@ -950,6 +1481,7 @@ is made by the character's context as either a letter or numeral.  This may prov
   <li><a href="http://syllabary.sourceforge.net/">The Grand Unified Syllabary Project</a></li>
   <li><a href="http://syllabary.sourceforge.net/Articles/PatternMatching/">An Introduction to Syllabaries and Syllabic Pattern Matching</a></li>
   <li><a href="http://syllabary.sourceforge.net/Articles/PatternMatching/EthiopicClasses.html">Ethiopic Character Classes (exert, 2001)</a></li>
+  <li><a href="http://syllabary.sourceforge.net/Articles/Folding/">Syllabic Form Folding</a></li>
   <li><a href="ftp://ftp.ethiopic.org/pub/perl-unicode/regex992.ps.gz">Developing Amharic Regular Expressions in Perl (2/99)</a></li>
   <li><a href="ftp://ftp.ethiopic.org/pub/perl-unicode/regex979.ps.gz">Thoughts on Regular Expressions for Ethiopic (9/97)</a></li>
 </ul>

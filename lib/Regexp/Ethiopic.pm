@@ -9,7 +9,7 @@ use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
                 	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 
-	$VERSION = "0.12";
+	$VERSION = "0.13";
 	
 	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm &subForm &formatForms
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
@@ -280,10 +280,6 @@ $not ||= $_[3];
 	}
 	else {
 		my @Forms = split ( /,/, $forms);
-		#
-		# next time, put @Chars loop on the outside and set
-		# up character ranges with -
-		#
 		foreach (@Forms) {
 			if ( /(\d)-(\d)/o ) {
 				my ($a,$b) = ($1,$2);
@@ -424,7 +420,7 @@ classes.
 A utility function to set the form number of a syllable based on the
 form of another syllable.
 
-  s/(\w+)([#ፀ#]/$1.subForm('ጸ', $2)/eg;
+  s/(\w+)([#ፀ#])/$1.subForm('ጸ', $2)/eg;
 
 
 =head3  formatForms
