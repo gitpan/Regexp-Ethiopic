@@ -7,7 +7,7 @@ BEGIN
 use strict;
 use vars qw($VERSION @EXPORT_OK %EthiopicClasses);
 
-	$VERSION = 0.02;
+	$VERSION = 0.03;
 	
 	@EXPORT_OK = qw (%EthiopicClasses);
 
@@ -143,6 +143,8 @@ sub handleChars
 {
 my ($chars,$form) = @_;
 
+	return ( $EthiopicClasses{$form} ) if ( $chars eq "all" );
+
 my $re;
 
 	$chars =~ s/(\w)(\w)/$1,$2/g;
@@ -153,13 +155,23 @@ my $re;
 			foreach my $char (sort keys %EthiopicClasses) {
 				next if ( length($char) > 1 );
 				next unless ( (ord($a) <= ord($char)) && (ord($char) <= ord($b)) );
-				$EthiopicClasses{$form} =~ /([$EthiopicClasses{$char}])/;
-				$re .= $1;
+				if ( $form eq "all" ) {
+					$re .= $EthiopicClasses{$char};
+				}
+				else {
+					$EthiopicClasses{$form} =~ /([$EthiopicClasses{$char}])/;
+					$re .= $1;
+				}
 			}
 		}
 		else {
-			$EthiopicClasses{$form} =~ /([$EthiopicClasses{$_}])/;
-			$re .= $1;
+			if ( $form eq "all" ) {
+				$re .= $EthiopicClasses{$_};
+			}
+			else {
+				$EthiopicClasses{$form} =~ /([$EthiopicClasses{$_}])/;
+				$re .= $1;
+			}
 		}
 	}
 
@@ -174,26 +186,29 @@ $not ||= $_[3];
 
 
 	my $re;
-	my @Forms = split ( /,/, $forms);
-	#
-	# next time, put @Chars loop on the outside and set
-	# up character ranges with -
-	#
-	foreach (@Forms) {
 
-		if ( /(\d)-(\d)/ ) {
-			my ($a,$b) = ($1,$2);
-			foreach my $form ($a..$b) {
+	if ( $forms eq "all" ) {
+		$re = handleChars ( $chars, $forms );
+	}
+	else {
+		my @Forms = split ( /,/, $forms);
+		#
+		# next time, put @Chars loop on the outside and set
+		# up character ranges with -
+		#
+		foreach (@Forms) {
+			if ( /(\d)-(\d)/ ) {
+				my ($a,$b) = ($1,$2);
+				foreach my $form ($a..$b) {
+					$re .= handleChars ( $chars, $form );
+				}
+			}
+			else {
+				my $form = $_;
 				$re .= handleChars ( $chars, $form );
 			}
 		}
-		else {
-			my $form = $_;
-			$re .= handleChars ( $chars, $form );
-		}
-
 	}
-
 
 	($re) ? ($not) ? "[$not$re]" : "[$re]" : "";
 }
@@ -204,17 +219,23 @@ sub getRe
 $_ = ($#_) ? $_[1] : $_[0];
 
 
-	s/\[[#:](\p{InEthiopic}+|\d+)[#:]\]/[$EthiopicClasses{$1}]/g;
+	s/\[:(\p{InEthiopic}+|\w+):\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : "[:$1:]"/eg;
+	s/\[#(\p{InEthiopic}|\d)#\]/[$EthiopicClasses{$1}]/g;
+	# s/\[[#:](\p{InEthiopic}+|\d+)[#:]\]/[$EthiopicClasses{$1}]/g;
+	s/\[#(\^)?([\d,-]+)#\]/setRange("all",$2,$1)/eg;
+	s/\[#(\^)?([\p{InEthiopic},-]+)#\]/setRange($2,"all",$1)/eg;
 
-	# yuck...
-	s/\[:([a-z]+):\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : "[:$1:]"/eg;
+	# print " Now $_\n";
+
 	#
 	# for some stupid reason the below doesn't work, so \w
 	# is used in place of \p{InEthiopic}, dangerous...
 	#
-	# s/(\p{InEthiopic})%\{([\d,-]+)\}/setRange($1,$2)/eg;  why doesn't this work?
+	# test 5 in examples/overload.pl will fail
+	#
+	# s/(\p{InEthiopic})%\{([\d,-]+)\}/setRange($1,$2)/eg;  # why doesn't this work?
 	s/(\w)%\{([\d,-]+)\}/setRange($1,$2)/eg;
-	s/\[(\^)?(\p{InEthiopic}+.*?)\]%\{(\^)?([\d,-]+)\}/setRange($2,$4, $1,$3)/eg;
+	s/\[(\^)?(\p{InEthiopic}+.*?)\]%\{(\^)?([\d,-]+)\}/setRange($2,$4,$1,$3)/eg;
 
 	$_;
 }
