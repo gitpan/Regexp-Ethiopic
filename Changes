@@ -1,3 +1,8 @@
+0.08 Sat Apr 19 11:50:38 EDT 2003
+	- tweaked RE language so that the % operator must appear inside {}.
+          Which is a simplification for interpretation, %'s scope as an operator
+          is now restricted, this should fit in with traditional REs more readily.
+
 0.07 Thu Apr 17 12:04:45 EDT 2003
 	- a one char doc fix.
 

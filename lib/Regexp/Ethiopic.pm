@@ -9,7 +9,7 @@ use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
                 	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 
-	$VERSION = 0.07;
+	$VERSION = 0.08;
 	
 	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
@@ -287,9 +287,10 @@ $_ = ($#_) ? $_[1] : $_[0];
 	#
 	# test 5 in examples/overload.pl will fail
 	#
-	# s/(\p{InEthiopic})%\{([\d,-]+)\}/setRange($1,$2)/eg;  # why doesn't this work?
-	s/(\w)%\{([\d,-]+)\}/setRange($1,$2)/eg;
-	s/\[(\^)?(\p{InEthiopic}+.*?)\]%\{(\^)?([\d,-]+)\}/setRange($2,$4,$1,$3)/eg;
+	# s/(\p{InEthiopic})\{%([\d,-]+)\}/setRange($1,$2)/eg;
+
+	s/(\w)\{%([\d,-]+)\}/setRange($1,$2)/eg;
+	s/\[(\^)?(\p{InEthiopic}+.*?)\]\{(\^)?%([\d,-]+)\}/setRange($2,$4,$1,$3)/eg;
 
 	$_;
 }
