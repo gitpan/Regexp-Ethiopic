@@ -10,7 +10,7 @@ use vars qw($VERSION @EXPORT_OK %AmharicEquivalence %AmharicClassEquivalence);
 # require Regexp::Ethiopic;
 
 
-	$VERSION = 0.02;
+	$VERSION = 0.03;
 	
 	@EXPORT_OK = qw(%AmharicEquivalence %AmharicClassEquivalence);
 
@@ -147,7 +147,7 @@ sub import
 			use overload;
 			overload::constant 'qr' => \&getRe;
 		}
-		elsif ( /EthiopicClasses|[gs]etForm|:forms/ ) {
+		elsif ( /EthiopicClasses|(sub|[gs]et)Form|:forms/ ) {
 			Regexp::Ethiopic->export_to_level (1, "Regexp::Ethiopic", $_);
 		}
 		else {
