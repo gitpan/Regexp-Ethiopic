@@ -1,3 +1,6 @@
+0.14 Sun May 30 13:12:50 EDT 2004
+	- updated limit notation to match range notation.
+
 0.13 Sat Nov  8 16:49:08 EST 2003
 	- added more to documentation doc/index.html.
 	- Removed %GeezClassEquivalence since it isn't used.

@@ -31,8 +31,8 @@ my $re = Regexp::Ethiopic::Amharic::getRe ( $string );
 is ( ($re eq "([አዓዐኣ])ለም[ጸፀ][ሀሃሐሓኀኃኻ]ይ"), 1, "Alemtsehay function string create" );
 is ( ($test =~ /$re/), 1, "Alemtsehay function match" );
 
-$re = Regexp::Ethiopic::Amharic::getRe ( "[ጸለ-መ]{%3,5-7}" );
-is ( ($re eq "[ጺሊሒሚጼሌሔሜጽልሕምጾሎሖሞ]"), 1, "[ጸለ-መ]{%3,5-7} Expansion" );
+$re = Regexp::Ethiopic::Amharic::getRe ( "[ጸለ-መ]{#3,5-7#}" );
+is ( ($re eq "[ጺሊሒሚጼሌሔሜጽልሕምጾሎሖሞ]"), 1, "[ጸለ-መ]{#3,5-7#} Expansion" );
 $re = Regexp::Ethiopic::Amharic::getRe ( "[:kaib:]" );
 is ( ($re eq "[ሁሉሐሙሡሩሱሹቁቑቡቩቱቹኁኑኙኡኩኹዉዑዙዡዩዱዹጁጉጙጡጩጱጹፁፉፑ]"), 1, "Kaib Expansion" );
 $re = Regexp::Ethiopic::Amharic::getRe ( "[:ካዕብ:]" );

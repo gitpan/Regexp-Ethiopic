@@ -9,7 +9,7 @@ use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
                 	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 
-	$VERSION = "0.13";
+	$VERSION = "0.14";
 	
 	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm &subForm &formatForms
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
@@ -317,9 +317,9 @@ $_ = ($#_) ? $_[1] : $_[0];
 	# test 9 in examples/overload.pl will fail
 	#
 	# s/(\p{Ethiopic})\{%([\d,-]+)\}/setRange($1,$2)/eog;
-	s/(\w)\{%([\d,-]+)\}/setRange($1,$2)/eog;
+	s/(\w)\{#([\d,-]+)#\}/setRange($1,$2)/eog;
 
-	s/\[(\^)?(\p{Ethiopic}+.*?)\]\{(\^)?%([\d,-]+)\}/setRange($2,$4,$1,$3)/eog;
+	s/\[(\^)?(\p{Ethiopic}+.*?)\]\{(\^)?#([\d,-]+)#\}/setRange($2,$4,$1,$3)/eog;
 
 	# print "  OUT: $_\n";
 
@@ -353,9 +353,9 @@ Regexp::Ethiopic - Regular Expressions Support for Ethiopic Script.
  :
 
  s/([#2#])/setForm($1,$ሳድስ)/eg;
- s/([መረበወ]%2)/setForm($1,$ሳድስ)/eg;
- s/([መረበወ]%{1,3})/setForm($1,$ሳድስ)/eg;
- s/([መረበወ]%{1-3,7})/setForm($1,$ሳድስ)/eg;
+ s/([መረበወ]{#2#})/setForm($1,$ሳድስ)/eg;
+ s/([መረበወ]{#1,3#})/setForm($1,$ሳድስ)/eg;
+ s/([መረበወ]{#1-3,7#})/setForm($1,$ሳድስ)/eg;
  s/([#ፀ#])/subForm('ጸ',$1)/eg;  # substitute, a 'ጸ' for a 'ፀ' in the form found for the 'ፀ'
 
  if ( /[#ኘ#]/ ) {
@@ -374,7 +374,7 @@ Regexp::Ethiopic - Regular Expressions Support for Ethiopic Script.
  use utf8;
  require Regexp::Ethiopic;
 
- my $string = "[መረበወ]%{1-3,7}";
+ my $string = "[መረበወ]{#1-3,7#}";
  my $re = Regexp::Ethiopic::getRe ( $string );
 
  s/abc($re)xyz/"abc".Regexp::Ethipic::setForm($1,6)."xyz"/eg;
