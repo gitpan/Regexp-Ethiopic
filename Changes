@@ -1,3 +1,7 @@
+0.04 Tue Mar 18 21:06:57 EST 2003
+	- added sat-sewt family equivalence that was overlooked.
+	- fixed comma between letters problem with a zero width insertion. 
+
 0.03 Mon Mar 17 15:30:26 EST 2003
 	- ranges added for forms equivalence.
 	- ranges added for family equivalence.

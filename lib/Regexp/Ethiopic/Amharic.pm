@@ -118,6 +118,7 @@ foreach (ord('ጸ')..ord('ጾ')) {
 #
 %AmharicClassEquivalence =(
 	ሀ	=> "ሀ-ሆሐ-ሗኀ-ኆኈ-ኍኸ-ኾዀ-ዅ",
+	ሰ	=> "ሰ-ሷሠ-ሧ",
 	አ	=> "አ-ኧዐ-ዖ",
 	ጸ	=> "ጸ-ጿፀ-ፆ"
 );
@@ -125,6 +126,9 @@ $AmharicClassEquivalence{'ሐ'}
 	= $AmharicClassEquivalence{'ኀ'}
 	= $AmharicClassEquivalence{'ኸ'}
 	= $AmharicClassEquivalence{'ሀ'}
+	;
+$AmharicClassEquivalence{'ሠ'}
+	= $AmharicClassEquivalence{'ሰ'}
 	;
 $AmharicClassEquivalence{'ዐ'}
 	= $AmharicClassEquivalence{'አ'}

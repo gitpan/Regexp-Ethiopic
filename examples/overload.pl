@@ -61,6 +61,7 @@ print "  ፈተና ፳፭፦ ኩ is of [:kaib:]\n" if ( "ኩ" =~ /[:kaib:]/ );
 
 print "Amharic Family Equivalence Test...\n";
 print "  ፈተና ፳፮፦ ዓለምፀሐይ contains [=#ጸ#=]\n" if ( $ፈተና =~ /[=#ጸ#=]/ );
+print "  ፈተና ፳፯፦ ዓለምፀሐይ contains [=#ሀ#=]\n" if ( $ፈተና =~ /[=#ሀ#=]/ );
 
 }
 

@@ -7,7 +7,7 @@ BEGIN
 use strict;
 use vars qw($VERSION @EXPORT_OK %EthiopicClasses);
 
-	$VERSION = 0.03;
+	$VERSION = 0.04;
 	
 	@EXPORT_OK = qw (%EthiopicClasses);
 
@@ -147,7 +147,7 @@ my ($chars,$form) = @_;
 
 my $re;
 
-	$chars =~ s/(\w)(\w)/$1,$2/g;
+	$chars =~ s/(\w)(?=\w)/$1,/g;
 	my @Chars = split ( /,/, $chars );
 	foreach (@Chars) {
 		if ( /(\w)-(\w)/ ) {
