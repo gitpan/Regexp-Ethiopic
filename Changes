@@ -1,3 +1,6 @@
+0.09 Sun May 18 05:12:46 EDT 2003
+	- addition of "subForm".
+
 0.08 Sat Apr 19 11:50:38 EDT 2003
 	- tweaked RE language so that the % operator must appear inside {}.
           Which is a simplification for interpretation, %'s scope as an operator

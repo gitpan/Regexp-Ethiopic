@@ -9,9 +9,9 @@ use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
                 	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 
-	$VERSION = 0.08;
+	$VERSION = 0.09;
 	
-	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm
+	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm &subForm
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
                 	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 	%EXPORT_TAGS = ( forms => [qw(
@@ -193,6 +193,15 @@ my ($ሆሄ, $form) = @_;
 }
 
 
+sub subForm
+{
+my ($set, $get) = @_;
+
+	#  e.g. s/([=#ሀ#=])/subForm($1, ሀ)/eg;
+	setForm ( $set, getForm ( $get ) );
+}
+
+
 sub handleChars
 {
 my ($chars,$form) = @_;
@@ -238,7 +247,6 @@ sub setRange
 my ($chars,$forms,$not) = @_;
 $not ||= $_[3];
 
-
 	my $re;
 
 	if ( $forms eq "all" ) {
@@ -272,6 +280,7 @@ sub getRe
 {
 $_ = ($#_) ? $_[1] : $_[0];
 
+# print "Yes UTF8!\n" if Encode::is_utf8($_);
 
 	s/\[:(\p{InEthiopic}+|\w+):\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : "[:$1:]"/eg;
 	s/\[#(\p{InEthiopic}|\d)#\]/($EthiopicClasses{$1}) ? "[$EthiopicClasses{$1}]" : ""/eg;
@@ -279,18 +288,20 @@ $_ = ($#_) ? $_[1] : $_[0];
 	s/\[#(\^)?([\d,-]+)#\]/setRange("all",$2,$1)/eg;
 	s/\[#(\^)?([\p{InEthiopic},-]+)#\]/setRange($2,"all",$1)/eg;
 
-	# print " Now $_\n";
+	# print "  IN: $_\n";
 
 	#
 	# for some stupid reason the below doesn't work, so \w
 	# is used in place of \p{InEthiopic}, dangerous...
 	#
-	# test 5 in examples/overload.pl will fail
+	# test 9 in examples/overload.pl will fail
 	#
-	# s/(\p{InEthiopic})\{%([\d,-]+)\}/setRange($1,$2)/eg;
+	s/(\p{InEthiopic})\{%([\d,-]+)\}/setRange($1,$2)/eg;
 
-	s/(\w)\{%([\d,-]+)\}/setRange($1,$2)/eg;
+	# s/(\w)\{%([\d,-]+)\}/setRange($1,$2)/eg;
 	s/\[(\^)?(\p{InEthiopic}+.*?)\]\{(\^)?%([\d,-]+)\}/setRange($2,$4,$1,$3)/eg;
+
+	# print "  OUT: $_\n";
 
 	$_;
 }
@@ -325,6 +336,7 @@ Regexp::Ethiopic - Regular Expressions Support for Ethiopic Script.
  s/([መረበወ]%2)/setForm($1,$ሳድስ)/eg;
  s/([መረበወ]%{1,3})/setForm($1,$ሳድስ)/eg;
  s/([መረበወ]%{1-3,7})/setForm($1,$ሳድስ)/eg;
+ s/([#ፀ#])/subForm('ጸ',$1)/eg;  # substitute, a 'ጸ' for a 'ፀ' in the form found for the 'ፀ'
 
  if ( /[#ኘ#]/ ) {
    #
@@ -356,7 +368,8 @@ properties of the script and are language independent.
 
 The Regexp::Ethiopic package is NOT derived from the Regexp class
 and may not be instantiated into an object.  Regexp::Ethiopic can
-optionally export the utility functions C<getForm> and C<setForm>
+optionally export the utility functions C<getForm>, C<setForm> and
+C<subForm>
 to query or set the form of an Ethiopic character.  Tags of variables
 in the form names set to form values may be exported under the C<:forms>
 pragma.

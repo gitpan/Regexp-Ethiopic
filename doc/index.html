@@ -9,6 +9,34 @@
 
 <h2><u>From Regexp::Ethiopic</u></h2>
 
+<h3>Why Ethiopic Character Classes?</h3>
+
+<p align="justify">Because they're not there!  Why character classes at all?
+The whole point of RE languages is to make pattern matching simpler than writing
+your own matching algorithms.  Standardized RE languages are also easier to
+read, write, maintain and share than the alternatives.  Syntax for character
+classes exist to exploit in simple notation the shared properties of a group of
+characters.</p>
+
+<p align="justify">So what properties do Ethiopic characters have that RE
+languages do not detect?  Ethiopic letters each contain two properties that
+should be matched independently.  Each letter is a syllable, a "CV" pattern,
+a means to detect either the "C" part or the "V" part is highly desirable.
+There are 7 basic "V" forms shared by 37 "C" bases.  This gives us 7 classes
+each containing 37 members and the inversion of 37 "C" classes each of 7
+members. 
+
+
+The number of elements per class is indeed larger than a number existing
+already defined character classes.
+</p>
+
+
+But isn't this just a matter of convenience?  Yes, but we like convenience,
+that's why we have character classes and REs to begin with.
+We have both \d and [:digit:] when [0-9], and 
+
+
 <h3>Equivalence of Family (row) and Equivalence of Form (column)</h3>
 
 <table border="1">

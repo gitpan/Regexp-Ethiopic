@@ -6,8 +6,6 @@ binmode(STDOUT, ":utf8");  # works fine w/o this on linux
 
 main:
 {
-
-# my $ፈተና = "ዓለምፀሐይ";
 my $ፈተና = "ዓለምፀሐይ";
 
 print "Basic Property Tests...\n";
