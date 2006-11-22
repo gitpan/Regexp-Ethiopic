@@ -3,10 +3,12 @@
 
 ######################### We start with some black magic to print on failure.
 
-binmode(STDOUT, ":utf8");  # but we still get wide char errors
-use Test::More qw(no_plan);
-use utf8;
+binmode(STDOUT, ":utf8");
+binmode(STDERR, ":utf8");
 use strict;
+use utf8;
+use encoding 'utf8';
+use Test::More qw(no_plan);
 
 use Regexp::Ethiopic::Amharic 'overload';
 

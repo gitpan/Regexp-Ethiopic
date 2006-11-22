@@ -7,7 +7,6 @@ BEGIN
 {
 use strict;
 use vars qw($VERSION @EXPORT_OK %TigrignaEquivalence %TigrignaClassEquivalence);
-# require Regexp::Ethiopic;
 
 
 	$VERSION = "0.05";
@@ -132,6 +131,7 @@ $TigrignaClassEquivalence{'ፀ'}
 	;
 }
 
+
 sub import
 {
 
@@ -155,6 +155,30 @@ sub import
 }
 
 
+#
+# move into Regexp::Ethiopic later...
+#
+sub getFamilyEquivalent
+{
+my ($chars) = @_;
+
+
+	return $chars if ( length($chars) == 1 );
+
+	$chars =~ s/(\w)(?=\w)/$1,/og;
+	my @Chars = split ( /,/, $chars );
+	my $return;
+	foreach (@Chars) {
+		$char = $_;
+		foreach	( keys %TigrignaClassEquivalence ) {
+			$return .= $_ if ( $TigrignaClassEquivalence{$char} eq $TigrignaClassEquivalence{$_} );
+		}
+	}
+
+	$return;
+}
+
+
 sub getRe
 {
 $_ = ($#_) ? $_[1] : $_[0];
@@ -162,6 +186,7 @@ $_ = ($#_) ? $_[1] : $_[0];
 
 	s/\[=(\p{Ethiopic})=\]/($TigrignaEquivalence{$1}) ? "[$TigrignaEquivalence{$1}]" : $1/eog;
 	s/\[=#(\p{Ethiopic})#=\]/($TigrignaClassEquivalence{$1}) ? "[$TigrignaClassEquivalence{$1}]" : $1/eog;
+	s/\[=#([\p{Ethiopic}]+)#=\]/Regexp::Ethiopic::setRange(getFamilyEquivalent($1),"all")/eog;
 
 	Regexp::Ethiopic::getRe ( $_ );
 }

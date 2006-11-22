@@ -1,3 +1,9 @@
+0.15 Sun Jul  2 23:37:37 EDT 2006
+	- added "use encoding 'utf8';" to test script to avoid warns.
+	- added Regexp::Ethiopic::isFamilyOf method to check if to chars are in the same family.
+	- added support for family equivalence where in [=#x#=] the "x" can be a list.
+	- tweaked syllabic limitter notation so that in x{#3,7#} the "x" can be other than the Ge'ez form.
+	
 0.14 Sun May 30 13:12:50 EDT 2004
 	- updated limit notation to match range notation.
 

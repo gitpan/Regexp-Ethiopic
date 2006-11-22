@@ -7,7 +7,6 @@ BEGIN
 {
 use strict;
 use vars qw($VERSION @EXPORT_OK %GeezEquivalence);
-# require Regexp::Ethiopic;
 
 
 	$VERSION = "0.06";

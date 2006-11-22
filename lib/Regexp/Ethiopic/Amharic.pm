@@ -7,7 +7,6 @@ BEGIN
 {
 use strict;
 use vars qw($VERSION @EXPORT_OK %AmharicEquivalence %AmharicClassEquivalence);
-# require Regexp::Ethiopic;
 
 
 	$VERSION = "0.05";
@@ -138,6 +137,7 @@ $AmharicClassEquivalence{'ፀ'}
 	;
 }
 
+
 sub import
 {
 
@@ -161,6 +161,30 @@ sub import
 }
 
 
+#
+# move into Regexp::Ethiopic later...
+#
+sub getFamilyEquivalent
+{
+my ($chars) = @_;
+
+
+	return $chars if ( length($chars) == 1 );
+
+	$chars =~ s/(\w)(?=\w)/$1,/og;
+	my @Chars = split ( /,/, $chars );
+	my $return;
+	foreach (@Chars) {
+		$char = $_;
+		foreach	( keys %AmharicClassEquivalence ) {
+			$return .= $_ if ( $AmharicClassEquivalence{$char} eq $AmharicClassEquivalence{$_} );
+		}
+	}
+
+	$return;
+}
+
+
 sub getRe
 {
 $_ = ($#_) ? $_[1] : $_[0];
@@ -168,6 +192,7 @@ $_ = ($#_) ? $_[1] : $_[0];
 
 	s/\[=(\p{Ethiopic})=\]/($AmharicEquivalence{$1}) ? "[$AmharicEquivalence{$1}]" : $1/eog;
 	s/\[=#(\p{Ethiopic})#=\]/($AmharicClassEquivalence{$1}) ? "[$AmharicClassEquivalence{$1}]" : $1/eog;
+	s/\[=#([\p{Ethiopic}]+)#=\]/Regexp::Ethiopic::setRange(getFamilyEquivalent($1),"all")/eog;
 
 	Regexp::Ethiopic::getRe ( $_ );
 }

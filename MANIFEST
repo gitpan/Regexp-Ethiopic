@@ -12,3 +12,4 @@ lib/Regexp/Ethiopic/Amharic.pm
 lib/Regexp/Ethiopic/Geez.pm
 lib/Regexp/Ethiopic/Tigrigna.pm
 t/01re.t
+META.yml                                 Module meta-data (added by MakeMaker)

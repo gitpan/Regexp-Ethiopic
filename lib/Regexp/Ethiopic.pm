@@ -9,7 +9,7 @@ use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
                 	$ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ);
 
-	$VERSION = "0.14";
+	$VERSION = "0.15";
 	
 	@EXPORT_OK = qw(%EthiopicClasses &getForm &setForm &subForm &formatForms
 	                $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
@@ -18,7 +18,7 @@ use vars qw($VERSION @EXPORT_OK %EXPORT_TAGS %EthiopicClasses
 	%EXPORT_TAGS = ( forms => [qw(
 	                 $ግዕዝ $ካዕብ $ሣልስ $ራብዕ $ኃምስ $ሳድስ $ሳብዕ
 	                 $ዘመደ_ግዕዝ $ዘመደ_ካዕብ $ዘመደ_ሣልስ $ዘመደ_ራብዕ $ዘመደ_ኃምስ)],
-			 utils => [qw(&getForm &setForm &subForm &formatForms)]
+			 utils => [qw(&getForm &setForm &subForm &formatForms &isFamilyOf)]
 	);
 
 
@@ -208,6 +208,16 @@ my ($set, $get) = @_;
 }
 
 
+sub isFamilyOf
+{
+my ($a,$b) = @_;
+
+	my $gez = setForm($a,1);
+	my $re  = getRe( "[#$gez#]" );
+	( $b =~ /$re/ );
+}
+
+
 sub formatForms
 {
 my ($format, $string) = @_;
@@ -254,11 +264,12 @@ my $re;
 			}
 		}
 		else {
+			my $geez = setForm( $_, $ግዕዝ);
 			if ( $form eq "all" ) {
-				$re .= $EthiopicClasses{$_};
+				$re .= $EthiopicClasses{$geez};
 			}
 			else {
-				$EthiopicClasses{$form} =~ /([$EthiopicClasses{$_}])/;
+				$EthiopicClasses{$form} =~ /([$EthiopicClasses{$geez}])/;
 				$re .= $1;
 			}
 		}
@@ -316,7 +327,7 @@ $_ = ($#_) ? $_[1] : $_[0];
 	#
 	# test 9 in examples/overload.pl will fail
 	#
-	# s/(\p{Ethiopic})\{%([\d,-]+)\}/setRange($1,$2)/eog;
+	# s/(\p{Ethiopic})\{#([\d,-]+)#\}/setRange($1,$2)/eog;
 	s/(\w)\{#([\d,-]+)#\}/setRange($1,$2)/eog;
 
 	s/\[(\^)?(\p{Ethiopic}+.*?)\]\{(\^)?#([\d,-]+)#\}/setRange($2,$4,$1,$3)/eog;
